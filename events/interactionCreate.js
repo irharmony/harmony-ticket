@@ -11,31 +11,31 @@ module.exports = async (client, int) => {
             const selectMenu = new MessageSelectMenu();
 
             selectMenu.setCustomId('newTicket');
-            selectMenu.setPlaceholder('Choose a reason for the ticket');
+            selectMenu.setPlaceholder('دلیل باز کردن تیکت را انتخاب کنید');
             selectMenu.addOptions([
                 {
                     emoji: '🐛',
                     label: 'None',
-                    description: 'No reason',
+                    description: 'ارتباط با ادمین ها',
                     value: 'newTicket'
                 },
                 {
                     emoji: '🦙',
                     label: 'Support',
-                    description: 'Ask for help',
+                    description: 'پرسش',
                     value: 'newTicket_Support'
                 },
                 {
                     emoji: '🐎',
                     label: 'Moderation',
-                    description: 'Talking with the team',
+                    description: 'غیره',
                     value: 'newTicket_Moderation'
                 },
             ]);
 
             const row = new MessageActionRow().addComponents(selectMenu);
 
-            return int.reply({ content: 'What will be the reason for the ticket ?', components: [row], ephemeral: true });
+            return int.reply({ content: 'به چه دلیل تیکت باز کرده اید؟', components: [row], ephemeral: true });
         }
 
         case 'newTicket': {
@@ -68,22 +68,22 @@ module.exports = async (client, int) => {
                 const ticketEmbed = new MessageEmbed();
 
                 ticketEmbed.setColor('GREEN');
-                ticketEmbed.setAuthor(`Your ticket has been successfully created ${int.member.user.username}${reason ? ` (${reason})` : ''} ✅`);
-                ticketEmbed.setDescription('*To close the current ticket click on the reaction below, warning it is impossible to go back !*');
+                ticketEmbed.setAuthor(`تیکت شما با موفقیت ساخته شد ${int.member.user.username}${reason ? ` (${reason})` : ''} ✅`);
+                ticketEmbed.setDescription('*!برای بستن تیکت میتوانید از دکمه زیر استفاده کنید ، اخطار: اگر که تیکت را بستید دیگر نمیتوانید برگردانید!*');
 
                 const closeButton = new MessageButton();
 
                 closeButton.setStyle('DANGER');
-                closeButton.setLabel('Close this ticket');
+                closeButton.setLabel('بستن تیکت');
                 closeButton.setCustomId(`closeTicket_${int.member.id}`);
 
                 const row = new MessageActionRow().addComponents(closeButton);
 
                 await channel.send({ embeds: [ticketEmbed], components: [row] });
 
-                return int.update({ content: `Your ticket is open <@${int.member.id}> <#${channel.id}> ✅`, components: [], ephemeral: true });
+                return int.update({ content: `تیکت شما در چنل باز شده است <@${int.member.id}> <#${channel.id}> ✅`, components: [], ephemeral: true });
             } else {
-                return int.update({ content: `You already have an open ticket <#${channel.id}> ❌`, components: [], ephemeral: true });
+                return int.update({ content: `شما از قبل تیکت باز کرده اید! <#${channel.id}> ❌`, components: [], ephemeral: true });
             }
         }
 
@@ -110,13 +110,13 @@ module.exports = async (client, int) => {
             const ticketEmbed = new MessageEmbed();
 
             ticketEmbed.setColor('RED');
-            ticketEmbed.setAuthor(`${int.member.user.username} has decided to close this ticket ❌`);
-            ticketEmbed.setDescription('*To permanently delete the ticket or to reopen the ticket click on the button below.*');
+            ticketEmbed.setAuthor(`${int.member.user.username} بستن تیکت را رد کرد ❌`);
+            ticketEmbed.setDescription('*برای بستن تیکت و یا باز کردن دوباره آن از دکمه های زیر میتوانید استفاده کنید*');
 
             const reopenButton = new MessageButton();
 
             reopenButton.setStyle('SUCCESS');
-            reopenButton.setLabel('Reopen this ticket');
+            reopenButton.setLabel('دوباره باز کردن');
             reopenButton.setCustomId(`reopenTicket_${int.customId.split('_')[1]}`);
 
             const saveButton = new MessageButton();
@@ -128,7 +128,7 @@ module.exports = async (client, int) => {
             const deleteButton = new MessageButton();
 
             deleteButton.setStyle('DANGER');
-            deleteButton.setLabel('Delete this ticket');
+            deleteButton.setLabel('حذف تیکت');
             deleteButton.setCustomId('deleteTicket');
 
             const row = new MessageActionRow().addComponents(reopenButton, saveButton, deleteButton);
@@ -159,13 +159,13 @@ module.exports = async (client, int) => {
             const ticketEmbed = new MessageEmbed();
 
             ticketEmbed.setColor('GREEN');
-            ticketEmbed.setAuthor(`The ticket has been reopened ✅`);
-            ticketEmbed.setDescription('*To close the current ticket click on the reaction below, warning it is impossible to go back !*');
+            ticketEmbed.setAuthor(`تیکت دوباره باز شد✅`);
+            ticketEmbed.setDescription('*!برای بستن تیکت میتوانید از دکمه زیر استفاده کنید ، اخطار: اگر که تیکت را بستید دیگر نمیتوانید برگردانید!*');
 
             const closeButton = new MessageButton();
 
             closeButton.setStyle('DANGER');
-            closeButton.setLabel('Close this ticket');
+            closeButton.setLabel('بستن تیکت');
             closeButton.setCustomId(`closeTicket_${int.customId.split('_')[1]}`);
 
             const row = new MessageActionRow().addComponents(closeButton);
