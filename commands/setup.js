@@ -5,20 +5,20 @@ module.exports = {
 
     execute(client, message) {
         if (!message.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)) {
-            return message.channel.send('You need to have the **manage messages** permission to use this command ❌');
+            return message.channel.send('برای استفاده از این دستور باید مجوز **MANAGE MESSAGE** 🚫را داشته باشید');
         }
 
         const setupEmbed = new MessageEmbed();
 
         setupEmbed.setColor('GREEN');
-        setupEmbed.setAuthor('Tickets system\nTo create a ticket click on the reaction below 🤝');
-        setupEmbed.setDescription('*A new channel will be created for you to talk with the team members !*');
+        setupEmbed.setAuthor('تیکت\n برای ساخت تیکت لطفا روی دکمه زیر کلیک کنید 🤝');
+        setupEmbed.setDescription('*یک چنل تازه برای شما ساخته میشود برای ارتباط با ما !*');
 
         const ticketButton = new MessageButton();
 
         ticketButton.setEmoji('🔓');
         ticketButton.setStyle('SUCCESS');
-        ticketButton.setLabel('Open a ticket');
+        ticketButton.setLabel('ساخت تیکت');
         ticketButton.setCustomId('createTicket');
 
         const row = new MessageActionRow().addComponents(ticketButton);
