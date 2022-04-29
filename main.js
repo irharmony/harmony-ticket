@@ -7,8 +7,8 @@ global.client = new Client({
     ]
 });
 
-client.config = require('./config');
+const { token } = require('./config.json');
 
 require('./src/loader');
 
-client.login(client.config.dsc.token);
+client.login(token);
