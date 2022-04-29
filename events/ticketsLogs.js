@@ -1,6 +1,8 @@
+const config = require('../config.json)
 module.exports = (client, type, guild, user) => {
     switch (type) {
         case 'newTicket': {
+        const Log = client.guild.channels.cache.get(config.LogChannel)
             return console.log(`${user.username} just created a ticket on the server ${guild.name}`);
         }
 
