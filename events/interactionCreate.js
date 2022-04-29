@@ -17,16 +17,16 @@ module.exports = async (client, int) => {
                     emoji: ':i_:787598077875716096>',
                     label: 'غیره',
                     description: 'سوال های عمومی',
-                    value: 'newTicket'
+                    value: 'newTicket_General'
                 },
                 {
-                    emoji: '<:sos~1:969485741082161182>',
+                    emoji: '<:sos:969485741082161182>',
                     label: 'تیم رسیدگی',
                     description: 'ارتباط با ادمین های رسیدگی',
                     value: 'newTicket_SOS'
                 },
                 {
-                    emoji: '<:dev~1:969485739555454976>',
+                    emoji: '<:dev:969485739555454976>',
                     label: 'تیم ربات',
                     description: 'ارتباط با مسئولین ربات ها',
                     value: 'newTicket_Devs'
@@ -38,7 +38,7 @@ module.exports = async (client, int) => {
                     value: 'newTicket_Configure'
                 },
                 {
-                    emoji: '<:con:969485739064709130>',
+                    emoji: '<:user:923592406446772235>',
                     label: 'تیم مدیریت',
                     description: 'ارتباط با تیم مدیریتی سرور',
                     value: 'newTicket_Moderation'
@@ -61,8 +61,7 @@ module.exports = async (client, int) => {
                 await int.guild.channels.create(`ticket-${int.member.id}`, {
                     type: 'GUILD_TEXT',
                     parent: '931114136459436092',
-                    topic: `ایجاد شده توسط : ${int.member.user.username}
-                    درخواست ارتباط با : ${reason ? ` (${reason})` : ''} ${new Date(Date.now()).toLocaleString()}`,
+                    topic: `ایجاد شده توسط : ${int.member.user.username}\nدرخواست ارتباط با : ${reason ? ` (${reason})` : ''} \n${new Date(Date.now()).toLocaleString()}`,
                     permissionOverwrites: [
                         {
                             id: int.guild.id,
@@ -100,8 +99,8 @@ module.exports = async (client, int) => {
                 const ticketEmbed = new MessageEmbed();
 
                 ticketEmbed.setColor('GREEN');
-                ticketEmbed.setAuthor(`تیکت شما با موفقیت ساخته شد ${int.member.user.username}${reason ? ` (${reason})` : ''} ✅`);
-                ticketEmbed.setDescription('*!برای بستن تیکت میتوانید از دکمه زیر استفاده کنید ، اخطار: اگر که تیکت را بستید دیگر نمیتوانید برگردانید!*');
+                ticketEmbed.setAuthor(`<:check:923151545401479179> تیکت شما با موفقیت ساخته شد ${int.member.user.username}${reason ? ` (${reason})` : ''} `);
+                ticketEmbed.setDescription('*!برای بستن تیکت میتوانید از دکمه زیر استفاده کنید ،\n اخطار: اگر که تیکت را بستید دیگر نمیتوانید برگردانید!*');
 
                 const closeButton = new MessageButton();
 
@@ -111,11 +110,11 @@ module.exports = async (client, int) => {
 
                 const row = new MessageActionRow().addComponents(closeButton);
 
-                await channel.send({ embeds: [ticketEmbed], components: [row] });
+                await channel.send({ content: `<@${int.member.user.id}>`, embeds: [ticketEmbed], components: [row] });
 
-                return int.update({ content: `تیکت شما در چنل باز شده است <#${channel.id}> ✅`, components: [], ephemeral: true });
+                return int.update({ content: `<:ignore:923151545569267752> تیکت شما در چنل باز شده است <:ignore:923151545569267752>\n<#${channel.id}> <:check:923151545401479179>`, components: [], ephemeral: true });
             } else {
-                return int.update({ content: `شما از قبل تیکت باز کرده اید! <#${channel.id}> ❌`, components: [], ephemeral: true });
+                return int.update({ content: `<:ignore:923151545569267752> شما از قبل تیکت باز کرده اید! <:ignore:923151545569267752>\n<#${channel.id}>`, components: [], ephemeral: true });
             }
         }
 
