@@ -5,7 +5,7 @@ module.exports = {
 
     execute(client, message) {
         if (!message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
-            return message.reply('برای استفاده از این دستور باید مجوز **MANAGE MESSAGE** 🚫را داشته باشید');
+            return message.reply('برای استفاده از این دستور باید مجوز **ADMINISTRATOR** 🚫را داشته باشید');
         }
 
         const setupEmbed = new MessageEmbed();
