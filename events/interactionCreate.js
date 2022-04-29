@@ -179,7 +179,7 @@ module.exports = async (client, int) => {
 
             const row = new MessageActionRow().addComponents(reopenButton, saveButton, deleteButton);
 
-            return int.reply({content:'<:ignore:923151545569267752> عملیات بستن تیکت', embeds: [ticketEmbed], components: [row] });
+            return int.reply({ content: '<:ignore:923151545569267752> عملیات بستن تیکت', embeds: [ticketEmbed], components: [row] });
         }
 
         case 'reopenTicket': {
@@ -221,7 +221,7 @@ module.exports = async (client, int) => {
             const ticketEmbed = new MessageEmbed();
 
             ticketEmbed.setColor('GREEN');
-            ticketEmbed.setDescription('*!برای بستن تیکت میتوانید از دکمه زیر استفاده کنید \n اخطار: اگر که تیکت را بستید دیگر نمیتوانید برگردانید!*');
+            ticketEmbed.setDescription('*!برای بستن تیکت میتوانید از دکمه زیر استفاده کنید\n اخطار: اگر که تیکت را بستید دیگر نمیتوانید برگردانید!*');
 
             const closeButton = new MessageButton();
 
