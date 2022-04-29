@@ -128,12 +128,28 @@ module.exports = async (client, int) => {
                         deny: ['VIEW_CHANNEL', 'SEND_MESSAGES']
                     },
                     {
-                        id: int.customId.split('_')[1],
-                        deny: ['VIEW_CHANNEL', 'SEND_MESSAGES']
+                        id: int.member.id,
+                        allow: permsToHave
                     },
                     {
-                        id: client.user.id,
-                        allow: ['VIEW_CHANNEL', 'SEND_MESSAGES']
+                        allow: permsToHave,
+                        id: "889790617327108106"
+                    },
+                    {
+                        allow: permsToHave,
+                        id: "930971681441325117"
+                    },
+                    {
+                        allow: permsToHave,
+                        id: "969139461361381376"
+                    },
+                    {
+                        allow: permsToHave,
+                        id: "899049712294965329"
+                    },
+                    {
+                        allow: permsToHave,
+                        id: "899049713087680512"
                     }
                 ]
             });
@@ -141,7 +157,7 @@ module.exports = async (client, int) => {
             const ticketEmbed = new MessageEmbed();
 
             ticketEmbed.setColor('RED');
-            ticketEmbed.setAuthor(`${int.member.user.username} بستن تیکت را رد کرد ❌`);
+            ticketEmbed.setAuthor(`عملیات بستن تیکت <:ignore:923151545569267752`);
             ticketEmbed.setDescription('*برای بستن تیکت و یا باز کردن دوباره آن از دکمه های زیر میتوانید استفاده کنید*');
 
             const reopenButton = new MessageButton();
@@ -153,7 +169,7 @@ module.exports = async (client, int) => {
             const saveButton = new MessageButton();
 
             saveButton.setStyle('SUCCESS');
-            saveButton.setLabel('Save this ticket');
+            saveButton.setLabel('‌ذخیره محتوای تیکت');
             saveButton.setCustomId(`saveTicket_${int.customId.split('_')[1]}`);
 
             const deleteButton = new MessageButton();
@@ -177,12 +193,28 @@ module.exports = async (client, int) => {
                         deny: ['VIEW_CHANNEL', 'SEND_MESSAGES']
                     },
                     {
-                        id: int.customId.split('_')[1],
-                        allow: ['VIEW_CHANNEL', 'SEND_MESSAGES']
+                        id: int.member.id,
+                        allow: permsToHave
                     },
                     {
-                        id: client.user.id,
-                        allow: ['VIEW_CHANNEL', 'SEND_MESSAGES']
+                        allow: permsToHave,
+                        id: "889790617327108106"
+                    },
+                    {
+                        allow: permsToHave,
+                        id: "930971681441325117"
+                    },
+                    {
+                        allow: permsToHave,
+                        id: "969139461361381376"
+                    },
+                    {
+                        allow: permsToHave,
+                        id: "899049712294965329"
+                    },
+                    {
+                        allow: permsToHave,
+                        id: "899049713087680512"
                     }
                 ]
             });
@@ -190,7 +222,7 @@ module.exports = async (client, int) => {
             const ticketEmbed = new MessageEmbed();
 
             ticketEmbed.setColor('GREEN');
-            ticketEmbed.setAuthor(`تیکت دوباره باز شد✅`);
+            ticketEmbed.setAuthor(`تیکت دوباره باز شد <:check:923151545401479179>`);
             ticketEmbed.setDescription('*!برای بستن تیکت میتوانید از دکمه زیر استفاده کنید ، اخطار: اگر که تیکت را بستید دیگر نمیتوانید برگردانید!*');
 
             const closeButton = new MessageButton();
