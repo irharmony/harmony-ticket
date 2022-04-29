@@ -4,8 +4,8 @@ module.exports = {
     name: 'setup',
 
     execute(client, message) {
-        if (!message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
-            return message.reply('برای استفاده از این دستور باید مجوز **ADMINISTRATOR** 🚫را داشته باشید');
+        if (!message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR) || !message.member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)) {
+            return message.reply('برای استفاده از این دستور باید مجوز **MANAGE_GUILD || ADMINISTRATOR** 🚫را داشته باشید');
         }
 
         const setupEmbed = new MessageEmbed();
