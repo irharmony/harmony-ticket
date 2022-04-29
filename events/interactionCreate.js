@@ -109,9 +109,13 @@ module.exports = async (client, int) => {
                 closeButton.setCustomId(`closeTicket_${int.member.id}`);
 
                 const row = new MessageActionRow().addComponents(closeButton);
-                if (int.value === 'newTicket_Moderation') {
+                if (int.value === 'newTicket_General') {
+                    await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد`, embeds: [ticketEmbed], components: [row] });
+                } else if (int.value === 'newTicket_Resolvers') {
                     await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@964309871321292850> / <@930971681441325117>`, embeds: [ticketEmbed], components: [row] });
-                }else if (int.value ==='')
+                } else if (int.value === 'newTicket_Dev') {
+
+                }
 
                 return int.update({ content: `<:check:923151545401479179> تیکت شما در چنل زیر باز شده است <:check:923151545401479179>\n<#${channel.id}>`, components: [], ephemeral: true });
             } else {
