@@ -9,18 +9,19 @@ module.exports = (client, type, guild, user) => {
 
         case 'newTicket': {
 
-            logEmbed.setColor('')
-            logEmbed.setTitle('')
-            logEmbed.setAuthor({ name: '', iconURL: '', url: '' })
-            logEmbed.setDescription('')
+            logEmbed.setColor('BLURPLE')
+            logEmbed.setTitle('تیکت جدیدی ایجاد شد')
+            logEmbed.setDescription(`
+            کاربر : ${user.tag} | ${user.id}
+            تیکت : <#ticket_${user.id}>
+            `)
             logEmbed.setTimestamp()
-            logEmbed.setFooter({ text: '', iconURL: '' });
             return console.log(`${user.username} just created a ticket on the server ${guild.name}`);
         }
 
         case 'closeTicket': {
 
-            logEmbed.setColor('')
+            logEmbed.setColor('BLURPLE')
             logEmbed.setTitle('')
             logEmbed.setAuthor({ name: '', iconURL: '', url: '' })
             logEmbed.setDescription('')
@@ -31,7 +32,7 @@ module.exports = (client, type, guild, user) => {
 
         case 'reopenTicket': {
 
-            logEmbed.setColor('')
+            logEmbed.setColor('BLURPLE')
             logEmbed.setTitle('')
             logEmbed.setAuthor({ name: '', iconURL: '', url: '' })
             logEmbed.setDescription('')
@@ -42,7 +43,7 @@ module.exports = (client, type, guild, user) => {
 
         case 'deleteTicket': {
 
-            logEmbed.setColor('')
+            logEmbed.setColor('BLURPLE')
             logEmbed.setTitle('')
             logEmbed.setAuthor({ name: '', iconURL: '', url: '' })
             logEmbed.setDescription('')
@@ -53,7 +54,7 @@ module.exports = (client, type, guild, user) => {
 
         case 'saveTicket': {
 
-            logEmbed.setColor('')
+            logEmbed.setColor('BLURPLE')
             logEmbed.setTitle('')
             logEmbed.setAuthor({ name: '', iconURL: '', url: '' })
             logEmbed.setDescription('')
