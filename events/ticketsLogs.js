@@ -3,11 +3,12 @@ const { Log } = require('../config.json')
 
 module.exports = (client, type, guild, user) => {
 const channel = client.guild.channels.cache.get(Log)
+const logEmbed = new MessageEmbed()
 
     switch (type) {
 
         case 'newTicket': {
-            const embed = new MessageEmbed()
+
             .setColor('') 
             .setTitle('')
             .setAuthor({ name: '', iconURL: '', url: '' }) 
@@ -18,7 +19,7 @@ const channel = client.guild.channels.cache.get(Log)
         }
 
         case 'closeTicket': {
-            const embed = new MessageEmbed()
+
             .setColor('') 
             .setTitle('')
             .setAuthor({ name: '', iconURL: '', url: '' }) 
@@ -29,7 +30,7 @@ const channel = client.guild.channels.cache.get(Log)
         }
 
         case 'reopenTicket': {
-            const embed = new MessageEmbed()
+
             .setColor('') 
             .setTitle('')
             .setAuthor({ name: '', iconURL: '', url: '' }) 
@@ -40,7 +41,7 @@ const channel = client.guild.channels.cache.get(Log)
         }
 
         case 'deleteTicket': {
-            const embed = new MessageEmbed()
+
             .setColor('') 
             .setTitle('')
             .setAuthor({ name: '', iconURL: '', url: '' }) 
@@ -51,7 +52,7 @@ const channel = client.guild.channels.cache.get(Log)
         }
 
         case 'saveTicket': {
-            const embed = new MessageEmbed()
+
             .setColor('') 
             .setTitle('')
             .setAuthor({ name: '', iconURL: '', url: '' }) 
