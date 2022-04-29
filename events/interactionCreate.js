@@ -44,8 +44,11 @@ module.exports = async (client, int) => {
             const channel = int.guild.channels.cache.find(x => x.name === `ticket-${int.member.id}`);
 
             if (!channel) {
+                let permsToHave = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'ATTACH_FILES', 'READ_MESSAGE_HISTORY', 'ADD_REACTIONS']
+
                 await int.guild.channels.create(`ticket-${int.member.id}`, {
                     type: 'GUILD_TEXT',
+                    parent: '931114136459436092',
                     topic: `Ticket created by ${int.member.user.username}${reason ? ` (${reason})` : ''} ${new Date(Date.now()).toLocaleString()}`,
                     permissionOverwrites: [
                         {
@@ -54,11 +57,27 @@ module.exports = async (client, int) => {
                         },
                         {
                             id: int.member.id,
-                            allow: ['VIEW_CHANNEL', 'SEND_MESSAGES']
+                            allow: permsToHave
                         },
                         {
-                            id: client.user.id,
-                            allow: ['VIEW_CHANNEL', 'SEND_MESSAGES']
+                            allow: permsToHave,
+                            id: "889790617327108106"
+                        },
+                        {
+                            allow: permsToHave,
+                            id: "930971681441325117"
+                        },
+                        {
+                            allow: permsToHave,
+                            id: "969139461361381376"
+                        },
+                        {
+                            allow: permsToHave,
+                            id: "899049712294965329"
+                        },
+                        {
+                            allow: permsToHave,
+                            id: "899049713087680512"
                         }
                     ]
                 });
@@ -81,7 +100,7 @@ module.exports = async (client, int) => {
 
                 await channel.send({ embeds: [ticketEmbed], components: [row] });
 
-                return int.update({ content: `تیکت شما در چنل باز شده است <@${int.member.id}> <#${channel.id}> ✅`, components: [], ephemeral: true });
+                return int.update({ content: `تیکت شما در چنل باز شده است <#${channel.id}> ✅`, components: [], ephemeral: true });
             } else {
                 return int.update({ content: `شما از قبل تیکت باز کرده اید! <#${channel.id}> ❌`, components: [], ephemeral: true });
             }
