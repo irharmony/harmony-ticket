@@ -1,7 +1,9 @@
 const { MessageEmbed } = require('discord.js')
-const { Log } = require('../config.json)
+const { Log } = require('../config.json')
+
 module.exports = (client, type, guild, user) => {
 const channel = client.guild.channels.cache.get(Log)
+
     switch (type) {
 
         case 'newTicket': {
