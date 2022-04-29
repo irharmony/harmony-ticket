@@ -1,5 +1,6 @@
 const { createWriteStream } = require('fs');
 const { MessageEmbed, MessageSelectMenu, MessageActionRow, MessageButton } = require('discord.js');
+let permsToHave = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'ATTACH_FILES', 'READ_MESSAGE_HISTORY', 'ADD_REACTIONS']
 
 module.exports = async (client, int) => {
     const req = int.customId.split('_')[0];
@@ -56,7 +57,6 @@ module.exports = async (client, int) => {
             const channel = int.guild.channels.cache.find(x => x.name === `ticket-${int.member.id}`);
 
             if (!channel) {
-                let permsToHave = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'ATTACH_FILES', 'READ_MESSAGE_HISTORY', 'ADD_REACTIONS']
 
                 await int.guild.channels.create(`ticket-${int.member.id}`, {
                     type: 'GUILD_TEXT',
@@ -222,7 +222,6 @@ module.exports = async (client, int) => {
             const ticketEmbed = new MessageEmbed();
 
             ticketEmbed.setColor('GREEN');
-            ticketEmbed.setAuthor(`تیکت دوباره باز شد <:check:923151545401479179>`);
             ticketEmbed.setDescription('*!برای بستن تیکت میتوانید از دکمه زیر استفاده کنید \n اخطار: اگر که تیکت را بستید دیگر نمیتوانید برگردانید!*');
 
             const closeButton = new MessageButton();
@@ -233,7 +232,7 @@ module.exports = async (client, int) => {
 
             const row = new MessageActionRow().addComponents(closeButton);
 
-            return int.reply({ embeds: [ticketEmbed], components: [row] });
+            return int.reply({ content: '<:check:923151545401479179> تیکت دوباره باز شد ', embeds: [ticketEmbed], components: [row] });
         }
 
         case 'deleteTicket': {
