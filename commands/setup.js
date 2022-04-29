@@ -23,6 +23,6 @@ module.exports = {
 
         const row = new MessageActionRow().addComponents(ticketButton);
 
-        message.channel.send({ embeds: [setupEmbed], components: [row] });
+        message.reply({ embeds: [setupEmbed], components: [row] });
     },
 };
