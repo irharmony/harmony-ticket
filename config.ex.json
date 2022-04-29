@@ -1,4 +1,11 @@
 {
-    "token":"ODYXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXG2CalU",
-    "prefix":"!"
+    "token": "ODYXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXG2CalU",
+    "prefix": "!",
+    "permsToHave": [
+        "VIEW_CHANNEL",
+        "SEND_MESSAGES",
+        "ATTACH_FILES",
+        "READ_MESSAGE_HISTORY",
+        "ADD_REACTIONS"
+    ]
 }
