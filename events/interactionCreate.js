@@ -14,21 +14,33 @@ module.exports = async (client, int) => {
             selectMenu.setPlaceholder('دلیل باز کردن تیکت را انتخاب کنید');
             selectMenu.addOptions([
                 {
-                    emoji: '🐛',
-                    label: 'رسیدگی',
-                    description: 'ارتباط با ادمین های رسیدگی',
+                    emoji: ':i_:787598077875716096>',
+                    label: 'غیره',
+                    description: 'سوال های عمومی',
                     value: 'newTicket'
                 },
                 {
-                    emoji: '🦙',
-                    label: 'Support',
-                    description: 'پرسش',
-                    value: 'newTicket_Support'
+                    emoji: '<:sos~1:969485741082161182>',
+                    label: 'تیم رسیدگی',
+                    description: 'ارتباط با ادمین های رسیدگی',
+                    value: 'newTicket_SOS'
                 },
                 {
-                    emoji: '🐎',
-                    label: 'Moderation',
-                    description: 'غیره',
+                    emoji: '<:dev~1:969485739555454976>',
+                    label: 'تیم ربات',
+                    description: 'ارتباط با مسئولین ربات ها',
+                    value: 'newTicket_Devs'
+                },
+                {
+                    emoji: '<:con:969485739064709130>',
+                    label: 'تیم کانفیگری',
+                    description: 'ارتباط با مسئولین کانفیگ سرور',
+                    value: 'newTicket_Configure'
+                },
+                {
+                    emoji: '<:con:969485739064709130>',
+                    label: 'تیم مدیریت',
+                    description: 'ارتباط با تیم مدیریتی سرور',
                     value: 'newTicket_Moderation'
                 },
             ]);
@@ -49,7 +61,8 @@ module.exports = async (client, int) => {
                 await int.guild.channels.create(`ticket-${int.member.id}`, {
                     type: 'GUILD_TEXT',
                     parent: '931114136459436092',
-                    topic: `Ticket created by ${int.member.user.username}${reason ? ` (${reason})` : ''} ${new Date(Date.now()).toLocaleString()}`,
+                    topic: `ایجاد شده توسط : ${int.member.user.username}
+                    درخواست ارتباط با : ${reason ? ` (${reason})` : ''} ${new Date(Date.now()).toLocaleString()}`,
                     permissionOverwrites: [
                         {
                             id: int.guild.id,
