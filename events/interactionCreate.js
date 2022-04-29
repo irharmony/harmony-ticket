@@ -99,7 +99,7 @@ module.exports = async (client, int) => {
                 const ticketEmbed = new MessageEmbed();
 
                 ticketEmbed.setColor('GREEN');
-                ticketEmbed.setAuthor(`<:check:923151545401479179> تیکت شما با موفقیت ساخته شد ${int.member.user.username}${reason ? ` (${reason})` : ''} `);
+                ticketEmbed.setAuthor(`ارتباط با : ${int.member.user.username}${reason ? ` (${reason})` : ''} `);
                 ticketEmbed.setDescription('*!برای بستن تیکت میتوانید از دکمه زیر استفاده کنید ،\n اخطار: اگر که تیکت را بستید دیگر نمیتوانید برگردانید!*');
 
                 const closeButton = new MessageButton();
@@ -110,9 +110,9 @@ module.exports = async (client, int) => {
 
                 const row = new MessageActionRow().addComponents(closeButton);
 
-                await channel.send({ content: `<@${int.member.user.id}>`, embeds: [ticketEmbed], components: [row] });
+                await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد`, embeds: [ticketEmbed], components: [row] });
 
-                return int.update({ content: `<:ignore:923151545569267752> تیکت شما در چنل باز شده است <:ignore:923151545569267752>\n<#${channel.id}> <:check:923151545401479179>`, components: [], ephemeral: true });
+                return int.update({ content: `<:ignore:923151545569267752> تیکت شما در چنل زیر باز شده است <:ignore:923151545569267752>\n<#${channel.id}> <:check:923151545401479179>`, components: [], ephemeral: true });
             } else {
                 return int.update({ content: `<:ignore:923151545569267752> شما از قبل تیکت باز کرده اید! <:ignore:923151545569267752>\n<#${channel.id}>`, components: [], ephemeral: true });
             }
