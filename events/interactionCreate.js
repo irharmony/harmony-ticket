@@ -1,6 +1,6 @@
 const { createWriteStream } = require('fs');
 const { MessageEmbed, MessageSelectMenu, MessageActionRow, MessageButton } = require('discord.js');
-let permsToHave = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'ATTACH_FILES', 'READ_MESSAGE_HISTORY', 'ADD_REACTIONS']
+let { permsToHave } = require('../config.json')
 
 module.exports = async (client, int) => {
     const req = int.customId.split('_')[0];
