@@ -157,7 +157,6 @@ module.exports = async (client, int) => {
             const ticketEmbed = new MessageEmbed();
 
             ticketEmbed.setColor('RED');
-            ticketEmbed.setAuthor(`عملیات بستن تیکت <:ignore:923151545569267752`);
             ticketEmbed.setDescription('*برای بستن تیکت و یا باز کردن دوباره آن از دکمه های زیر میتوانید استفاده کنید*');
 
             const reopenButton = new MessageButton();
@@ -180,7 +179,7 @@ module.exports = async (client, int) => {
 
             const row = new MessageActionRow().addComponents(reopenButton, saveButton, deleteButton);
 
-            return int.reply({ embeds: [ticketEmbed], components: [row] });
+            return int.reply({content:'<:ignore:923151545569267752> عملیات بستن تیکت', embeds: [ticketEmbed], components: [row] });
         }
 
         case 'reopenTicket': {
