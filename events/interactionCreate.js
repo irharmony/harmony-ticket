@@ -1,6 +1,6 @@
 const { createWriteStream } = require('fs');
 const { MessageEmbed, MessageSelectMenu, MessageActionRow, MessageButton } = require('discord.js');
-let { permsToHave } = require('../config.json')
+let { permsToHave, Category } = require('../config.json')
 
 module.exports = async (client, int) => {
     const req = int.customId.split('_')[0];
@@ -60,7 +60,7 @@ module.exports = async (client, int) => {
 
                 await int.guild.channels.create(`ticket-${int.member.id}`, {
                     type: 'GUILD_TEXT',
-                    parent: '931114136459436092',
+                    parent: Category,
                     topic: `ایجاد شده توسط : ${int.member.user.username}\nدرخواست ارتباط با : ${reason ? ` (${reason})` : ''} \n${new Date(Date.now()).toLocaleString()}`,
                     permissionOverwrites: [
                         {
