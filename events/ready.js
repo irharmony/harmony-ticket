@@ -9,7 +9,7 @@ module.exports = (client) => {
             status: 'dnd',
             activities: [{
                 type: 'WATCHING',
-                name: COUNT + 'Open Tickets',
+                name: COUNT + ' Open Tickets',
             }]
         });
     }, 60000);
