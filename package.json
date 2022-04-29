@@ -1,14 +1,22 @@
 {
-    "name": "discord-tickets",
-    "main": "main.js",
-    "author": "ZerioDev",
-    "version": "1.0.0",
-    "repository": "https://github.com/ZerioDev/DiscordTickets.git",
-    "description": "A cool Discord bot to manage tickets on your server",
-    "scripts": {
-        "start": "node main.js"
-    },
-    "dependencies": {
-        "discord.js": "^13.2.0"
-    }
+  "name": "harmony-ticket",
+  "version": "0.0.1",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/irharmony/harmony-ticket.git"
+  },
+  "author": "hadiaz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/irharmony/harmony-ticket/issues"
+  },
+  "homepage": "https://github.com/irharmony/harmony-ticket#readme",
+  "dependencies": {
+    "discord.js": "^13.6.0"
+  }
 }
