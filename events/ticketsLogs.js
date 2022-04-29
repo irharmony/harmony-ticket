@@ -29,7 +29,6 @@ module.exports = (client, type, guild, user) => {
         }
 
         case 'deleteTicket': {
-
             logEmbed.setColor('BLURPLE')
             logEmbed.setTitle('🗑️ | تیکت با موفقیت بسته شد')
             logEmbed.setDescription('اطلاعات :\n\nکاربر :`' + user.tag + '` | `' + user.id + '`\nتیکت : `ticket-' + user.id + '`\nتاریخ : `' + new Date().toLocaleString() + '`')
