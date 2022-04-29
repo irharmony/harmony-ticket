@@ -100,7 +100,7 @@ module.exports = async (client, int) => {
 
                 ticketEmbed.setColor('GREEN');
                 ticketEmbed.setAuthor(`ارتباط با : ${reason ? ` (${reason})` : ''} `);
-                ticketEmbed.setDescription('*!برای بستن تیکت میتوانید از دکمه زیر استفاده کنید ،\n اخطار: اگر که تیکت را بستید دیگر نمیتوانید برگردانید!*');
+                ticketEmbed.setDescription('*!برای بستن تیکت میتوانید از دکمه زیر استفاده کنید \n اخطار: اگر که تیکت را بستید دیگر نمیتوانید برگردانید!*');
 
                 const closeButton = new MessageButton();
 
@@ -223,7 +223,7 @@ module.exports = async (client, int) => {
 
             ticketEmbed.setColor('GREEN');
             ticketEmbed.setAuthor(`تیکت دوباره باز شد <:check:923151545401479179>`);
-            ticketEmbed.setDescription('*!برای بستن تیکت میتوانید از دکمه زیر استفاده کنید ، اخطار: اگر که تیکت را بستید دیگر نمیتوانید برگردانید!*');
+            ticketEmbed.setDescription('*!برای بستن تیکت میتوانید از دکمه زیر استفاده کنید \n اخطار: اگر که تیکت را بستید دیگر نمیتوانید برگردانید!*');
 
             const closeButton = new MessageButton();
 
@@ -238,7 +238,6 @@ module.exports = async (client, int) => {
 
         case 'deleteTicket': {
             const channel = int.guild.channels.cache.get(int.channelId);
-
             return channel.delete();
         }
 
