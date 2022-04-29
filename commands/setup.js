@@ -11,7 +11,7 @@ module.exports = {
         const setupEmbed = new MessageEmbed();
 
         setupEmbed.setColor('GREEN');
-        setupEmbed.setAuthor('تیکت\n برای ساخت تیکت لطفا روی دکمه زیر کلیک کنید 🤝');
+        setupEmbed.setAuthor({ name: 'تیکت\n برای ساخت تیکت لطفا روی دکمه زیر کلیک کنید 🤝' });
         setupEmbed.setDescription('*یک چنل تازه برای شما ساخته میشود برای ارتباط با ما !*');
 
         const ticketButton = new MessageButton();
