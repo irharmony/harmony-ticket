@@ -23,7 +23,7 @@ module.exports = async (client, int) => {
                     emoji: '<:sos:969485741082161182>',
                     label: 'تیم رسیدگی',
                     description: 'ارتباط با ادمین های رسیدگی',
-                    value: 'newTicket_SOS'
+                    value: 'newTicket_Resolvers'
                 },
                 {
                     emoji: '<:dev:969485739555454976>',
@@ -252,7 +252,7 @@ module.exports = async (client, int) => {
                     return `${date} - ${user} : ${m.attachments.size > 0 ? m.attachments.first().proxyURL : m.content}`;
                 }).reverse().join('\n');
 
-                if (messages.length < 1) messages = 'There are no messages in this ticket... strange';
+                if (messages.length < 1) messages = 'محتوایی در این تیکت یافت نشد !!!';
 
                 const ticketID = Date.now();
 
