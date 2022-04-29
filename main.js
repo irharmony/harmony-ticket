@@ -12,3 +12,7 @@ const { token } = require('./config.json');
 require('./src/loader');
 
 client.login(token);
+
+process.on('unhandledRejection', err => {
+    console.log(err);
+});
