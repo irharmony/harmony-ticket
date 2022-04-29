@@ -109,14 +109,17 @@ module.exports = async (client, int) => {
                 closeButton.setCustomId(`closeTicket_${int.member.id}`);
 
                 const row = new MessageActionRow().addComponents(closeButton);
-                if (int.value === 'newTicket_General') {
+                if (int.values[0] === 'newTicket_Resolvers') {
+                    await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&964309871321292850> / <@&930971681441325117>`, embeds: [ticketEmbed], components: [row] });
+                } else if (int.values[0] === 'newTicket_Dev') {
+                    await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&917436520502284309> / <@&969139461361381376>`, embeds: [ticketEmbed], components: [row] });
+                } else if (int.values[0] === 'newTicket_Configure') {
+                    await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&917436520502284309> / <@&889790617327108106>`, embeds: [ticketEmbed], components: [row] });
+                } else if (int.values[0] === 'newTicket_Moderation') {
+                    await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&899049711372210206> / <@&930965854710038599>`, embeds: [ticketEmbed], components: [row] });
+                } else {
                     await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد`, embeds: [ticketEmbed], components: [row] });
-                } else if (int.value === 'newTicket_Resolvers') {
-                    await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@964309871321292850> / <@930971681441325117>`, embeds: [ticketEmbed], components: [row] });
-                } else if (int.value === 'newTicket_Dev') {
-
                 }
-
                 return int.update({ content: `<:check:923151545401479179> تیکت شما در چنل زیر باز شده است <:check:923151545401479179>\n<#${channel.id}>`, components: [], ephemeral: true });
             } else {
                 return int.update({ content: `<:ignore:923151545569267752> شما از قبل تیکت باز کرده اید! <:ignore:923151545569267752>\n<#${channel.id}>`, components: [], ephemeral: true });
