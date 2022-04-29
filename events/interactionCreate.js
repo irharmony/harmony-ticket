@@ -90,6 +90,10 @@ module.exports = async (client, int) => {
                         {
                             allow: permsToHave,
                             id: "899049713087680512"
+                        },
+                        {
+                            allow:permsToHave,
+                            id:"899049748764450816"
                         }
                     ]
                 });
@@ -158,6 +162,10 @@ module.exports = async (client, int) => {
                     {
                         allow: permsToHave,
                         id: "899049713087680512"
+                    },
+                    {
+                        allow:permsToHave,
+                        id:"899049748764450816"
                     }
                 ]
             });
@@ -222,6 +230,10 @@ module.exports = async (client, int) => {
                     {
                         allow: permsToHave,
                         id: "899049713087680512"
+                    },
+                    {
+                        allow:permsToHave,
+                        id:"899049748764450816"
                     }
                 ]
             });
