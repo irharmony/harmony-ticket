@@ -15,8 +15,8 @@ module.exports = async (client, int) => {
             selectMenu.addOptions([
                 {
                     emoji: '🐛',
-                    label: 'None',
-                    description: 'ارتباط با ادمین ها',
+                    label: 'رسیدگی',
+                    description: 'ارتباط با ادمین های رسیدگی',
                     value: 'newTicket'
                 },
                 {
