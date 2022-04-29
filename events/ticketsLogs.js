@@ -10,7 +10,7 @@ module.exports = (client, type, guild, user) => {
         case 'newTicket': {
             logEmbed.setColor('BLURPLE')
             logEmbed.setTitle('📬️ | تیکت جدیدی ایجاد شد')
-            logEmbed.setDescription('اطلاعات :\n\nکاربر :`' + user.tag + '` | `' + user.id + '`\nتاریخ : `' + new Date().toLocaleString() + '`')
+            logEmbed.setDescription('اطلاعات :\n\nکاربر :`' + user.tag + '` | `' + user.id + '`\nتیکت : `ticket-' + user.id + '`\nتاریخ : `' + new Date().toLocaleString() + '`')
             return channel.send({ embeds: [logEmbed] })
         }
 
