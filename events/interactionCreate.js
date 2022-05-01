@@ -114,7 +114,7 @@ module.exports = async (client, int) => {
 
                 const row = new MessageActionRow().addComponents(closeButton);
                 if (int.values[0] === 'newTicket_Resolvers') {
-                    await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&964309871321292850> / <@&930971681441325117>`, embeds: [ticketEmbed], components: [row] });
+                    await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&964309871321292850> / <@&899049712294965329> /<@&930971681441325117>`, embeds: [ticketEmbed], components: [row] });
                 } else if (int.values[0] === 'newTicket_Devs') {
                     await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&917436520502284309> / <@&969139461361381376>`, embeds: [ticketEmbed], components: [row] });
                 } else if (int.values[0] === 'newTicket_Configure') {
