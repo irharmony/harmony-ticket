@@ -1,18 +1,18 @@
-const { Client, Intents } = require('discord.js');
+// Utils
+require("dotenv").config();
+const { Client, Intents } = require("discord.js");
 
+// Create a new Discord client
 global.client = new Client({
-    intents: [
-        Intents.FLAGS.GUILDS,
-        Intents.FLAGS.GUILD_MESSAGES
-    ]
+  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 });
 
-const { token } = require('./config.json');
+// Starting the Client
+require("./src/loader");
 
-require('./src/loader');
+// logging in to the discord Client
+client.login(process.env.token);
 
-client.login(token);
-
-process.on('unhandledRejection', err => {
-    console.log(err);
+process.on("unhandledRejection", (err) => {
+  console.log(err);
 });

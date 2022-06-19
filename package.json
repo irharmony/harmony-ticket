@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/irharmony/harmony-ticket#readme",
   "dependencies": {
-    "discord.js": "^13.6.0"
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.1",
+    "ora": "^5.4.1"
   }
 }

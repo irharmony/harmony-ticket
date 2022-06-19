@@ -1,16 +1,26 @@
-const { Category } = require('../config.json')
+// Utils
+const ora = require("ora");
+const { Category } = require("../config.json");
+
+let botLoader = ora("Starting discord.js Client").start();
+
 module.exports = (client) => {
-    console.log(`${client.user.username} ready to manage tickets !`);
+  botLoader.succeed(`${client.user.tag} ready to manage tickets !`);
 
-    setInterval(() => {
-        var COUNT = client.channels.cache.filter(c => c.type === 'GUILD_TEXT' && c.parentId === Category).size
+  // Setting an interval to change the bot's presence
+  setInterval(() => {
+    var COUNT = client.channels.cache.filter(
+      (c) => c.type === "GUILD_TEXT" && c.parentId === Category
+    ).size;
 
-        client.user.setPresence({
-            status: 'dnd',
-            activities: [{
-                type: 'WATCHING',
-                name: COUNT + ' Open Tickets',
-            }]
-        });
-    }, 60000);
-}
+    client.user.setPresence({
+      status: "dnd",
+      activities: [
+        {
+          type: "WATCHING",
+          name: COUNT + " Open Tickets",
+        },
+      ],
+    });
+  }, 60000);
+};
