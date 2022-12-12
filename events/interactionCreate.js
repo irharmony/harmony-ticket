@@ -45,8 +45,7 @@ module.exports = async (client, int) => {
                     value: 'newTicket_Moderation'
                 },
             ]);
-            const button = new MessageButton().setCustomId("ReqAdmin").setLabel('درخواست ادمینی')
-                .setStyle("SECONDARY").setEmoji('<a:RGB002:901083281842389012>')
+            const button = new MessageButton().setCustomId("ReqAdmin").setLabel('درخواست ادمینی').setStyle("SECONDARY")
 
             const row = new MessageActionRow().addComponents([selectMenu, button]);
 
@@ -59,13 +58,11 @@ module.exports = async (client, int) => {
             selectMenu.setPlaceholder('سکشن مورد نظر خود را وارد کنید.');
             selectMenu.addOptions([
                 {
-                    emoji: '<:CR_SovietYunyun:792052321671839744>',
                     label: 'Grate',
                     description: 'Grate Admin',
                     value: 'newTicket_Grate'
                 },
                 {
-                    emoji: '<a:emoji_110:951760494128168960>',
                     label: 'Adult',
                     description: 'Adult Admin',
                     value: 'newTicket_Adult'
