@@ -15,7 +15,7 @@ module.exports = async (client, int) => {
             selectMenu.setPlaceholder('دلیل باز کردن تیکت را انتخاب کنید');
             selectMenu.addOptions([
                 {
-                    emoji: ':i_:787598077875716096>',
+                    emoji: '<:i_:787598077875716096>',
                     label: 'غیره',
                     description: 'سوال های عمومی',
                     value: 'newTicket_General'
@@ -45,10 +45,35 @@ module.exports = async (client, int) => {
                     value: 'newTicket_Moderation'
                 },
             ]);
+            const button = new MessageButton().setCustomId("ReqAdmin").setLabel('درخواست ادمینی')
+                .setStyle("SECONDARY").setEmoji('<a:RGB002:901083281842389012>')
 
-            const row = new MessageActionRow().addComponents(selectMenu);
+            const row = new MessageActionRow().addComponents([selectMenu, button]);
 
             return int.reply({ content: 'به چه دلیل تیکت باز کرده اید؟', components: [row], ephemeral: true });
+        }
+
+        case 'ReqAdmin': {
+            const selectMenu = new MessageSelectMenu();
+            selectMenu.setCustomId('newTicket');
+            selectMenu.setPlaceholder('سکشن مورد نظر خود را وارد کنید.');
+            selectMenu.addOptions([
+                {
+                    emoji: '<:CR_SovietYunyun:792052321671839744>',
+                    label: 'Grate',
+                    description: 'Grate Admin',
+                    value: 'newTicket_Grate'
+                },
+                {
+                    emoji: '<a:emoji_110:951760494128168960>',
+                    label: 'Adult',
+                    description: 'Adult Admin',
+                    value: 'newTicket_Adult'
+                }
+            ]);
+            const row = new MessageActionRow().addComponents(selectMenu);
+
+            return int.update({ content: 'روی سکشن مورد نظر خودتون کلیک کنید.', components: [row], ephemeral: true });
         }
 
         case 'newTicket': {
@@ -73,30 +98,45 @@ module.exports = async (client, int) => {
                         },
                         {
                             allow: permsToHave,
-                            id: "889790617327108106"
+                            id: "1013553329013538936"
                         },
                         {
                             allow: permsToHave,
-                            id: "930971681441325117"
+                            id: "1041394525895151676"
                         },
                         {
                             allow: permsToHave,
-                            id: "969139461361381376"
+                            id: "1020361414281543762"
                         },
                         {
                             allow: permsToHave,
-                            id: "899049712294965329"
+                            id: "1013553328954802248"
                         },
                         {
                             allow: permsToHave,
-                            id: "899049713087680512"
-                        },
-                        {
-                            allow:permsToHave,
-                            id:"899049748764450816"
+                            id: "1013553321841274980"
                         }
                     ]
-                });
+                }).then((channel) => {
+                    let OrGrate = int.guild.roles.cache.get("1013553335925735455")
+                    let OrAdult = int.guild.roles.cache.get("1013553337175658677")
+                    let CrGrate = int.guild.roles.cache.get("1013553331047776266")
+                    let CrAdult = int.guild.roles.cache.get("1013553331978907801")
+                    let Core = int.guild.roles.cache.get("1019182472841412648")
+                    let Management = int.guild.roles.cache.get("1013553326387896360")
+
+                    if (int.values[0] === 'newTicket_Adult') {
+                        channel.permissionOverwrites.edit(OrAdult, { SEND_MESSAGES: true, VIEW_CHANNEL: true, READ_MESSAGE_HISTORY: true})
+                        channel.permissionOverwrites.edit(CrAdult, { SEND_MESSAGES: true, VIEW_CHANNEL: true, READ_MESSAGE_HISTORY: true})
+                        channel.permissionOverwrites.edit(Core, { SEND_MESSAGES: true, VIEW_CHANNEL: true, READ_MESSAGE_HISTORY: true})
+                        channel.permissionOverwrites.edit(Management, { SEND_MESSAGES: true, VIEW_CHANNEL: true, READ_MESSAGE_HISTORY: true})
+                    } else if (int.values[0] === 'newTicket_Grate') {
+                        channel.permissionOverwrites.edit(OrGrate, { SEND_MESSAGES: true, VIEW_CHANNEL: true, READ_MESSAGE_HISTORY: true})
+                        channel.permissionOverwrites.edit(CrGrate, { SEND_MESSAGES: true, VIEW_CHANNEL: true, READ_MESSAGE_HISTORY: true})
+                        channel.permissionOverwrites.edit(Core, { SEND_MESSAGES: true, VIEW_CHANNEL: true, READ_MESSAGE_HISTORY: true})
+                        channel.permissionOverwrites.edit(Management, { SEND_MESSAGES: true, VIEW_CHANNEL: true, READ_MESSAGE_HISTORY: true})
+                    }
+                })
 
                 const channel = int.guild.channels.cache.find(x => x.name === `ticket-${int.member.id}`);
 
@@ -121,6 +161,10 @@ module.exports = async (client, int) => {
                     await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&917436520502284309> / <@&889790617327108106>`, embeds: [ticketEmbed], components: [row] });
                 } else if (int.values[0] === 'newTicket_Moderation') {
                     await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&899049711372210206> / <@&930965854710038599>`, embeds: [ticketEmbed], components: [row] });
+                } else if (int.values[0] === 'newTicket_Adult') {
+                    await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1013553326387896360> / <@&1019182472841412648> / <@&1013553331978907801> / <@&1013553337175658677>`, embeds: [ticketEmbed], components: [row] });
+                } else if (int.values[0] === 'newTicket_Grate') {
+                    await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1013553326387896360> / <@&1019182472841412648> / <@&1013553331047776266> / <@&1013553335925735455>`, embeds: [ticketEmbed], components: [row] });
                 } else {
                     await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد`, embeds: [ticketEmbed], components: [row] });
                 }
@@ -145,27 +189,23 @@ module.exports = async (client, int) => {
                     },
                     {
                         allow: permsToHave,
-                        id: "889790617327108106"
+                        id: "1013553329013538936"
                     },
                     {
                         allow: permsToHave,
-                        id: "930971681441325117"
+                        id: "1041394525895151676"
                     },
                     {
                         allow: permsToHave,
-                        id: "969139461361381376"
+                        id: "1020361414281543762"
                     },
                     {
                         allow: permsToHave,
-                        id: "899049712294965329"
+                        id: "1013553328954802248"
                     },
                     {
                         allow: permsToHave,
-                        id: "899049713087680512"
-                    },
-                    {
-                        allow:permsToHave,
-                        id:"899049748764450816"
+                        id: "1013553321841274980"
                     }
                 ]
             });
@@ -213,27 +253,23 @@ module.exports = async (client, int) => {
                     },
                     {
                         allow: permsToHave,
-                        id: "889790617327108106"
+                        id: "1013553329013538936"
                     },
                     {
                         allow: permsToHave,
-                        id: "930971681441325117"
+                        id: "1041394525895151676"
                     },
                     {
                         allow: permsToHave,
-                        id: "969139461361381376"
+                        id: "1020361414281543762"
                     },
                     {
                         allow: permsToHave,
-                        id: "899049712294965329"
+                        id: "1013553328954802248"
                     },
                     {
                         allow: permsToHave,
-                        id: "899049713087680512"
-                    },
-                    {
-                        allow:permsToHave,
-                        id:"899049748764450816"
+                        id: "1013553321841274980"
                     }
                 ]
             });
