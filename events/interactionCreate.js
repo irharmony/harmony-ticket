@@ -232,7 +232,7 @@ module.exports = async (client, int) => {
 
             const row = new MessageActionRow().addComponents(reopenButton, saveButton, deleteButton);
 
-            return int.reply({ content: '<:ignore:923151545569267752> عملیات بستن تیکت', embeds: [ticketEmbed], components: [row] });
+            return int.reply({ content: '<:ignore:935152656090025994> عملیات بستن تیکت', embeds: [ticketEmbed], components: [row] });
         }
 
         case 'reopenTicket': {
@@ -284,7 +284,7 @@ module.exports = async (client, int) => {
 
             const row = new MessageActionRow().addComponents(closeButton);
 
-            return int.reply({ content: '<:check:923151545401479179> تیکت دوباره باز شد ', embeds: [ticketEmbed], components: [row] });
+            return int.reply({ content: '<a:blackyes:969324088826949693> تیکت دوباره باز شد ', embeds: [ticketEmbed], components: [row] });
         }
 
         case 'deleteTicket': {
