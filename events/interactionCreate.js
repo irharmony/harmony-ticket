@@ -47,9 +47,10 @@ module.exports = async (client, int) => {
             ]);
             const button = new MessageButton().setCustomId("ReqAdmin").setLabel('درخواست ادمینی').setStyle("SECONDARY")
 
-            const row = new MessageActionRow().addComponents([selectMenu, button]);
+            const row = new MessageActionRow().addComponents(selectMenu);
+            const row1 = new MessageActionRow().addComponents(button);
 
-            return int.reply({ content: 'به چه دلیل تیکت باز کرده اید؟', components: [row], ephemeral: true });
+            return int.reply({ content: 'به چه دلیل تیکت باز کرده اید؟', components: [row,row1], ephemeral: true });
         }
 
         case 'ReqAdmin': {
