@@ -15,31 +15,31 @@ module.exports = async (client, int) => {
             selectMenu.setPlaceholder('دلیل باز کردن تیکت را انتخاب کنید');
             selectMenu.addOptions([
                 {
-                    emoji: '<:i_:787598077875716096>',
+                    emoji: '<a:i_:1020365613312512111>',
                     label: 'غیره',
                     description: 'سوال های عمومی',
                     value: 'newTicket_General'
                 },
                 {
-                    emoji: '<:sos:969485741082161182>',
+                    emoji: '<:couert:1020644429847076894>',
                     label: 'تیم رسیدگی',
                     description: 'ارتباط با ادمین های رسیدگی',
                     value: 'newTicket_Resolvers'
                 },
                 {
-                    emoji: '<:dev:969485739555454976>',
+                    emoji: '<a:green001:936973674320388096>',
                     label: 'تیم ربات',
                     description: 'ارتباط با مسئولین ربات ها',
                     value: 'newTicket_Devs'
                 },
                 {
-                    emoji: '<:con:969485739064709130>',
+                    emoji: '<:config:1020644221566337054>',
                     label: 'تیم کانفیگری',
                     description: 'ارتباط با مسئولین کانفیگ سرور',
                     value: 'newTicket_Configure'
                 },
                 {
-                    emoji: '<:user:923592406446772235>',
+                    emoji: '<:emoji_223:907603584504438885>',
                     label: 'تیم مدیریت',
                     description: 'ارتباط با تیم مدیریتی سرور',
                     value: 'newTicket_Moderation'
@@ -165,9 +165,9 @@ module.exports = async (client, int) => {
                 } else {
                     await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد`, embeds: [ticketEmbed], components: [row] });
                 }
-                return int.update({ content: `<:check:923151545401479179> تیکت شما در چنل زیر باز شده است <:check:923151545401479179>\n<#${channel.id}>`, components: [], ephemeral: true });
+                return int.update({ content: `<a:blackyes:969324088826949693> تیکت شما در چنل زیر باز شده است <a:blackyes:969324088826949693>\n<#${channel.id}>`, components: [], ephemeral: true });
             } else {
-                return int.update({ content: `<:ignore:923151545569267752> شما از قبل تیکت باز کرده اید! <:ignore:923151545569267752>\n<#${channel.id}>`, components: [], ephemeral: true });
+                return int.update({ content: `<a:844610530182430731:1039980064462360636> شما از قبل تیکت باز کرده اید! <a:844610530182430731:1039980064462360636>\n<#${channel.id}>`, components: [], ephemeral: true });
             }
         }
 
