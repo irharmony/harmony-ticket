@@ -113,6 +113,10 @@ module.exports = async (client, int) => {
                         {
                             allow: permsToHave,
                             id: "1013553321841274980"
+                        },
+                        {
+                            allow: permsToHave,
+                            id: "1053027786824089620"
                         }
                     ]
                 }).then((channel) => {
@@ -152,13 +156,13 @@ module.exports = async (client, int) => {
 
                 const row = new MessageActionRow().addComponents(closeButton);
                 if (int.values[0] === 'newTicket_Resolvers') {
-                    await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1013553329013538936> / <@&1041394525895151676> /<@&1013553326387896360>`, embeds: [ticketEmbed], components: [row] });
+                    await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1013553329013538936> / <@&1041394525895151676> /<@&1013553326387896360> / <@&1053027786824089620>`, embeds: [ticketEmbed], components: [row] });
                 } else if (int.values[0] === 'newTicket_Devs') {
                     await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&988140030180614174>`, embeds: [ticketEmbed], components: [row] });
                 } else if (int.values[0] === 'newTicket_Configure') {
                     await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1013553328954802248> / <@&1013553321841274980>`, embeds: [ticketEmbed], components: [row] });
                 } else if (int.values[0] === 'newTicket_Moderation') {
-                    await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1013553326387896360> / <@&1013553329013538936>`, embeds: [ticketEmbed], components: [row] });
+                    await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1013553326387896360> / <@&1013553329013538936> / <@&1053027786824089620>`, embeds: [ticketEmbed], components: [row] });
                 } else if (int.values[0] === 'newTicket_Adult') {
                     await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1013553326387896360> / <@&1019182472841412648> / <@&1013553331978907801> / <@&1013553337175658677>`, embeds: [ticketEmbed], components: [row] });
                 } else if (int.values[0] === 'newTicket_Grate') {
@@ -204,6 +208,10 @@ module.exports = async (client, int) => {
                     {
                         allow: permsToHave,
                         id: "1013553321841274980"
+                    },
+                    {
+                        allow: permsToHave,
+                        id: "1053027786824089620"
                     }
                 ]
             });
@@ -268,6 +276,10 @@ module.exports = async (client, int) => {
                     {
                         allow: permsToHave,
                         id: "1013553321841274980"
+                    },
+                    {
+                        allow: permsToHave,
+                        id: "1053027786824089620"
                     }
                 ]
             });
