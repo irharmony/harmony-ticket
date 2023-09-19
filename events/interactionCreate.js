@@ -9,6 +9,11 @@ module.exports = async (client, int) => {
 
     switch (req) {
         case 'createTicket': {
+
+            if (int.member.roles.cache.has("1151602784567828520")) {
+                return int.reply({ content: "slm" })
+            }
+
             const selectMenu = new MessageSelectMenu();
 
             selectMenu.setCustomId('newTicket');
