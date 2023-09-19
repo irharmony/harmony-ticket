@@ -21,19 +21,19 @@ module.exports = async (client, int) => {
                     value: 'newTicket_General'
                 },
                 {
-                    emoji: '<a:green001:936973674320388096>',
+                    emoji: '<:Devs:1153751188316115024>',
                     label: 'تیم ربات',
                     description: 'ارتباط با مسئولین ربات ها',
                     value: 'newTicket_Devs'
                 },
                 {
-                    emoji: '<:config:1020644221566337054>',
+                    emoji: '<:Con:1153771850120314932>',
                     label: 'تیم کانفیگری',
                     description: 'ارتباط با مسئولین کانفیگ سرور',
                     value: 'newTicket_Configure'
                 },
                 {
-                    emoji: '<:emoji_223:907603584504438885>',
+                    emoji: '<:Mods:1153751222566785034>',
                     label: 'تیم مدیریت',
                     description: 'ارتباط با تیم مدیریتی سرور',
                     value: 'newTicket_Moderation'
