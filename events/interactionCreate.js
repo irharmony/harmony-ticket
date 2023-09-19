@@ -39,8 +39,8 @@ module.exports = async (client, int) => {
                 },
                 {
                     emoji: '<:Mods:1153751222566785034>',
-                    label: 'تیم مدیریت',
-                    description: 'ارتباط با تیم مدیریتی سرور',
+                    label: 'تیم مدیریت و شکایت',
+                    description: 'ارتباط با تیم مدیریتی سرور و ثبت شکایت',
                     value: 'newTicket_Moderation'
                 },
             ]);
@@ -217,7 +217,7 @@ module.exports = async (client, int) => {
 
             const row = new MessageActionRow().addComponents(reopenButton, saveButton, deleteButton);
 
-            return int.reply({ content: '<:ignore:935152656090025994> عملیات بستن تیکت', embeds: [ticketEmbed], components: [row] });
+            return int.reply({ content: '<:ignore:969323939094478918> عملیات بستن تیکت', embeds: [ticketEmbed], components: [row] });
         }
 
         case 'reopenTicket': {
