@@ -3,7 +3,7 @@ module.exports = (client) => {
     console.log(`${client.user.username} ready to manage tickets !`);
 
     setInterval(() => {
-        var COUNT = client.channels.cache.filter(c => c.type === 'GUILD_TEXT' && c.parentId === Category).size
+        var COUNT = client.channels.cache.filter(c => c.type === 'GUILD_TEXT' && c.parentId === Category).size - 2
 
         client.user.setPresence({
             status: 'dnd',
