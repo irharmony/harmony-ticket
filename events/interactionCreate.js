@@ -11,7 +11,11 @@ module.exports = async (client, int) => {
         case 'createTicket': {
 
             if (int.member.roles.cache.has("1151602784567828520")) {
-                return int.reply({ content: "slm" })
+
+                
+                let button = new MessageButton().setCustomId("newTicket_Moderation").setLabel('رسیدگی به شکایت').setStyle("DANGER")
+
+                return int.reply({ content: "slm", components: [button], ephemeral: true })
             }
 
             const selectMenu = new MessageSelectMenu();
