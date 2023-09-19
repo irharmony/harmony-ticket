@@ -11,7 +11,7 @@ module.exports = async (client, int) => {
         case 'createTicket': {
 
             if (int.member.roles.cache.has("1151602784567828520")) {
-                let button = new MessageButton().setCustomId("newTicket").setLabel('رسیدگی به شکایت').setStyle("DANGER")
+                let button = new MessageButton().setCustomId("Ticket").setLabel('رسیدگی به شکایت').setStyle("DANGER")
                 const row1 = new MessageActionRow().addComponents(button);
 
                 return int.reply({ content: "در صورتی که شکایتی دارید دکمه زیرا بزنید.", components: [row1], ephemeral: true })
@@ -74,6 +74,65 @@ module.exports = async (client, int) => {
             const row = new MessageActionRow().addComponents(selectMenu);
 
             return int.update({ content: 'روی سکشن مورد نظر خودتون کلیک کنید.', components: [row], ephemeral: true });
+        }
+
+        case 'Ticket': {
+            const channel = int.guild.channels.cache.find(x => x.name === `banned-${int.member.id}`);
+
+            const ticketEmbed = new MessageEmbed();
+
+            ticketEmbed.setColor('GREEN');
+            ticketEmbed.setAuthor({ name: `ارتباط با : مدیریت سرور ` });
+            ticketEmbed.setDescription('*!برای بستن تیکت میتوانید از دکمه زیر استفاده کنید \n اخطار: اگر که تیکت را بستید دیگر نمیتوانید برگردانید!*');
+
+            const closeButton = new MessageButton();
+
+            closeButton.setStyle('DANGER');
+            closeButton.setLabel('بستن تیکت');
+            closeButton.setCustomId(`closeTicket_${int.member.id}`);
+            const row = new MessageActionRow().addComponents(closeButton)
+
+            if (!channel) {
+
+                await int.guild.channels.create(`banned-${int.member.id}`, {
+                    type: 'GUILD_TEXT',
+                    parent: Category,
+                    topic: `ایجاد شده توسط : ${int.member.user.username}\nدرخواست ارتباط با : مدیریت سرور \n${new Date(Date.now()).toLocaleString()}`,
+                    permissionOverwrites: [
+                        {
+                            id: int.guild.id,
+                            deny: ['VIEW_CHANNEL', 'SEND_MESSAGES']
+                        },
+                        {
+                            id: int.member.id,
+                            allow: permsToHave
+                        },
+                        {
+                            allow: permsToHave,
+                            id: "1151599978691702855"
+                        },
+                        {
+                            allow: permsToHave,
+                            id: "1151600128822616145"
+                        },
+                        {
+                            allow: permsToHave,
+                            id: "1151600949748564028"
+                        },
+                        {
+                            allow: permsToHave,
+                            id: "1151600958690828449"
+                        },
+                        {
+                            allow: permsToHave,
+                            id: "1151602168420376586"
+                        }
+                    ]
+                }).then(async (channel) => {
+                    await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1151599978691702855> / <@&1151600128822616145> / <@&1151600949748564028> / <@&1151600958690828449> / <@&1151602168420376586>`, embeds: [ticketEmbed], components: [row] });
+                    return int.update({ content: `<a:blackyes:969324088826949693> تیکت شما در چنل زیر باز شده است <a:blackyes:969324088826949693>\n<#${channel.id}>`, components: [], ephemeral: true });
+                })
+            }
         }
 
         case 'newTicket': {
@@ -149,8 +208,6 @@ module.exports = async (client, int) => {
                         await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1151599978691702855> / <@&1151600128822616145> / <@&1151600949748564028> / <@&1151600958690828449> / <@&1151602168420376586> / <@&1151602163634675812>`, embeds: [ticketEmbed], components: [row] });
                     } else if (int.values[0] === 'newTicket_Grate') {
                         await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1151599978691702855> / <@&1151600128822616145> / <@&1151600949748564028> / <@&1151600958690828449> / <@&1151602168420376586> / <@&1151602163634675812>`, embeds: [ticketEmbed], components: [row] });
-                    } else if (req === "Moderation") {
-                        await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1151599978691702855> / <@&1151600128822616145> / <@&1151600949748564028> / <@&1151600958690828449> / <@&1151602168420376586>`, embeds: [ticketEmbed], components: [row] });
                     } else {
                         await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد`, embeds: [ticketEmbed], components: [row] });
                     }
