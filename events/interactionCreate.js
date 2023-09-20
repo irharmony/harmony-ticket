@@ -138,11 +138,11 @@ module.exports = async (client, int) => {
         case 'newTicket': {
             const reason = int.values[0].split('_')[1];
 
-            const channel = int.guild.channels.cache.find(x => x.name === `ticketID-${int.member.id}`);
+            const channel = int.guild.channels.cache.find(x => x.name === `ticketid-${int.member.id}`);
 
             if (!channel) {
 
-                await int.guild.channels.create(`ticketID-${int.member.id}`, {
+                await int.guild.channels.create(`ticketid-${int.member.id}`, {
                     type: 'GUILD_TEXT',
                     parent: Category,
                     topic: `ایجاد شده توسط : ${int.member.user.username}\nدرخواست ارتباط با : ${reason ? ` (${reason})` : ''} \n${new Date(Date.now()).toLocaleString()}`,
