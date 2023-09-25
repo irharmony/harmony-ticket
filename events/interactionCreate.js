@@ -9,6 +9,7 @@ module.exports = async (client, int) => {
 
     switch (req) {
         case 'createTicket': {
+            if (int.member.roles.cache.has("1151602835851583488")) return int.reply({ content: "You don't have perm for create ticket.", ephemeral: true });
 
             if (int.member.roles.cache.has("1151602784567828520")) {
                 let button = new MessageButton().setCustomId("Ticket").setLabel('رسیدگی به شکایت').setStyle("DANGER")
