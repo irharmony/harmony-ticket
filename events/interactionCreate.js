@@ -47,6 +47,12 @@ module.exports = async (client, int) => {
                     description: 'ارتباط با تیم مدیریتی سرور و ثبت شکایت',
                     value: 'newTicket_Moderation'
                 },
+                {
+                    emoji: '<:Owner:1155779741501116446>',
+                    label: 'ارتباط با اونر ها',
+                    description: 'ارتباط با اونر های سرور هارمونی',
+                    value: 'newTicket_Owner'
+                }
             ]);
             const button = new MessageButton().setCustomId("ReqAdmin").setLabel('درخواست ادمینی').setStyle("SECONDARY")
 
@@ -174,11 +180,16 @@ module.exports = async (client, int) => {
                         },
                         {
                             allow: permsToHave,
-                            id: "1151602168420376586"
+                            id: "1151600811751788636"
                         }
                     ]
                 }).then(async (channel) => {
-                    let GetAdmin = int.guild.roles.cache.get("1151602163634675812")
+                    let GetAdmin = int.guild.roles.cache.get("1151602163634675812"),
+                    president = int.guild.roles.cache.get("1151599978691702855"),
+                    marshal = int.guild.roles.cache.get("1151600128822616145"),
+                    prime = int.guild.roles.cache.get("1151600949748564028"),
+                    minister = int.guild.roles.cache.get("1151600958690828449"),
+                    ancient = int.guild.roles.cache.get("1151600811751788636")
 
                     if (int.values[0] === 'newTicket_Adult') {
                         channel.permissionOverwrites.edit(GetAdmin, { SEND_MESSAGES: true, VIEW_CHANNEL: true, READ_MESSAGE_HISTORY: true })
@@ -209,6 +220,13 @@ module.exports = async (client, int) => {
                         await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1151599978691702855> / <@&1151600128822616145> / <@&1151600949748564028> / <@&1151600958690828449> / <@&1151602168420376586> / <@&1151602163634675812>`, embeds: [ticketEmbed], components: [row] });
                     } else if (int.values[0] === 'newTicket_Grate') {
                         await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1151599978691702855> / <@&1151600128822616145> / <@&1151600949748564028> / <@&1151600958690828449> / <@&1151602168420376586> / <@&1151602163634675812>`, embeds: [ticketEmbed], components: [row] });
+                    } else if (int.values[0] === 'newTicket_Owner') {
+                        await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1077282365853937734>`, embeds: [ticketEmbed], components: [row] });
+                        channel.permissionOverwrites.edit(president, { VIEW_CHANNEL: false })
+                        channel.permissionOverwrites.edit(marshal, { VIEW_CHANNEL: false })
+                        channel.permissionOverwrites.edit(prime, { VIEW_CHANNEL: false })
+                        channel.permissionOverwrites.edit(minister, { VIEW_CHANNEL: false })
+                        channel.permissionOverwrites.edit(ancient, { VIEW_CHANNEL: false })
                     } else {
                         await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد`, embeds: [ticketEmbed], components: [row] });
                     }
