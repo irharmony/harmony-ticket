@@ -116,11 +116,11 @@ module.exports = async (client, int) => {
                         },
                         {
                             allow: permsToHave,
-                            id: "1151599978691702855"
+                            id: "1151609030603706499"
                         },
                         {
                             allow: permsToHave,
-                            id: "1151600128822616145"
+                            id: "1161000998869946389"
                         },
                         {
                             allow: permsToHave,
@@ -136,7 +136,7 @@ module.exports = async (client, int) => {
                         }
                     ]
                 }).then(async (channel) => {
-                    await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1151599978691702855> / <@&1151600128822616145> / <@&1151600949748564028> / <@&1151600958690828449> / <@&1151602168420376586>`, embeds: [ticketEmbed], components: [row] });
+                    await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1151609030603706499> / <@&1161000998869946389> / <@&1151600949748564028> / <@&1151600958690828449>`, embeds: [ticketEmbed], components: [row] });
                     return int.update({ content: `<a:blackyes:969324088826949693> تیکت شما در چنل زیر باز شده است <a:blackyes:969324088826949693>\n<#${channel.id}>`, components: [], ephemeral: true });
                 })
             }
@@ -164,11 +164,11 @@ module.exports = async (client, int) => {
                         },
                         {
                             allow: permsToHave,
-                            id: "1151599978691702855"
+                            id: "1151609030603706499"
                         },
                         {
                             allow: permsToHave,
-                            id: "1151600128822616145"
+                            id: "1161000998869946389"
                         },
                         {
                             allow: permsToHave,
@@ -177,19 +177,14 @@ module.exports = async (client, int) => {
                         {
                             allow: permsToHave,
                             id: "1151600958690828449"
-                        },
-                        {
-                            allow: permsToHave,
-                            id: "1151600811751788636"
                         }
                     ]
                 }).then(async (channel) => {
                     let GetAdmin = int.guild.roles.cache.get("1151602163634675812"),
-                    president = int.guild.roles.cache.get("1151599978691702855"),
-                    marshal = int.guild.roles.cache.get("1151600128822616145"),
+                    president = int.guild.roles.cache.get("1151609030603706499"),
+                    marshal = int.guild.roles.cache.get("1161000998869946389"),
                     prime = int.guild.roles.cache.get("1151600949748564028"),
-                    minister = int.guild.roles.cache.get("1151600958690828449"),
-                    ancient = int.guild.roles.cache.get("1151600811751788636")
+                    minister = int.guild.roles.cache.get("1151600958690828449")
 
                     if (int.values[0] === 'newTicket_Adult') {
                         channel.permissionOverwrites.edit(GetAdmin, { SEND_MESSAGES: true, VIEW_CHANNEL: true, READ_MESSAGE_HISTORY: true })
@@ -215,11 +210,11 @@ module.exports = async (client, int) => {
                     } else if (int.values[0] === 'newTicket_Configure') {
                         await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1139624865071104183>`, embeds: [ticketEmbed], components: [row] });
                     } else if (int.values[0] === 'newTicket_Moderation') {
-                        await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1151599978691702855> / <@&1151600128822616145> / <@&1151600949748564028> / <@&1151600958690828449> / <@&1151602168420376586>`, embeds: [ticketEmbed], components: [row] });
+                        await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n${president} / ${marshal} / ${prime} / ${minister}`, embeds: [ticketEmbed], components: [row] });
                     } else if (int.values[0] === 'newTicket_Adult') {
-                        await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1151599978691702855> / <@&1151600128822616145> / <@&1151600949748564028> / <@&1151600958690828449> / <@&1151602168420376586> / <@&1151602163634675812>`, embeds: [ticketEmbed], components: [row] });
+                        await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<${president} / ${marshal} / ${prime} / ${minister} / ${GetAdmin}`, embeds: [ticketEmbed], components: [row] });
                     } else if (int.values[0] === 'newTicket_Grate') {
-                        await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1151599978691702855> / <@&1151600128822616145> / <@&1151600949748564028> / <@&1151600958690828449> / <@&1151602168420376586> / <@&1151602163634675812>`, embeds: [ticketEmbed], components: [row] });
+                        await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<${president} / ${marshal} / ${prime} / ${minister} / ${GetAdmin}`, embeds: [ticketEmbed], components: [row] });
                     } else if (int.values[0] === 'newTicket_Owner') {
                         await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1077282365853937734>`, embeds: [ticketEmbed], components: [row] });
                         channel.permissionOverwrites.edit(president, { VIEW_CHANNEL: false })
@@ -252,11 +247,11 @@ module.exports = async (client, int) => {
                     },
                     {
                         allow: permsToHave,
-                        id: "1151599978691702855"
+                        id: "1151609030603706499"
                     },
                     {
                         allow: permsToHave,
-                        id: "1151600128822616145"
+                        id: "1161000998869946389"
                     },
                     {
                         allow: permsToHave,
@@ -316,11 +311,11 @@ module.exports = async (client, int) => {
                     },
                     {
                         allow: permsToHave,
-                        id: "1151599978691702855"
+                        id: "1151609030603706499"
                     },
                     {
                         allow: permsToHave,
-                        id: "1151600128822616145"
+                        id: "1161000998869946389"
                     },
                     {
                         allow: permsToHave,
