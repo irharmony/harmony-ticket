@@ -6,7 +6,8 @@ module.exports = async (client, int) => {
     const req = int.customId.split('_')[0];
 
     client.emit('ticketsLogs', req, int.guild, int.member.user);
-
+    console.log(int.values)
+    console.log(int.customId, int.user.id)
     switch (req) {
         case 'createTicket': {
             if (int.member.roles.cache.has("1151602835851583488")) return int.reply({ content: "You don't have perm for create ticket.", ephemeral: true });
@@ -14,8 +15,8 @@ module.exports = async (client, int) => {
             if (int.member.roles.cache.has("1151602784567828520")) {
                 let button = new MessageButton().setCustomId("Ticket").setLabel('رسیدگی به شکایت').setStyle("DANGER")
                 const row1 = new MessageActionRow().addComponents(button);
-
-                return int.reply({ content: "در صورتی که شکایتی دارید دکمه زیرا بزنید.", components: [row1], ephemeral: true })
+                await int.deferReply({ fetchReply: true, ephemeral: true })
+                return int.editReply({ content: "در صورتی که شکایتی دارید دکمه زیرا بزنید.", components: [row1], ephemeral: true })
             }
 
             const selectMenu = new MessageSelectMenu();
@@ -52,35 +53,16 @@ module.exports = async (client, int) => {
                     label: 'ارتباط با اونر ها',
                     description: 'ارتباط با اونر های سرور هارمونی',
                     value: 'newTicket_Owner'
-                }
-            ]);
-            const button = new MessageButton().setCustomId("ReqAdmin").setLabel('درخواست ادمینی').setStyle("SECONDARY")
-
-            const row = new MessageActionRow().addComponents(selectMenu);
-            const row1 = new MessageActionRow().addComponents(button);
-
-            return int.reply({ content: 'به چه دلیل تیکت باز کرده اید؟', components: [row, row1], ephemeral: true });
-        }
-
-        case 'ReqAdmin': {
-            const selectMenu = new MessageSelectMenu();
-            selectMenu.setCustomId('newTicket');
-            selectMenu.setPlaceholder('سکشن مورد نظر خود را وارد کنید.');
-            selectMenu.addOptions([
-                {
-                    label: 'Grate',
-                    description: 'Grate Admin',
-                    value: 'newTicket_Grate'
                 },
                 {
-                    label: 'Adult',
-                    description: 'Adult Admin',
-                    value: 'newTicket_Adult'
+                    label: 'درخواست ادمینی',
+                    description: 'درخواست ادمینی در جیریت و ادولت',
+                    value: 'newTicket_Admin'
                 }
             ]);
             const row = new MessageActionRow().addComponents(selectMenu);
-
-            return int.update({ content: 'روی سکشن مورد نظر خودتون کلیک کنید.', components: [row], ephemeral: true });
+            await int.deferReply({ fetchReply: true, ephemeral: true })
+            return int.editReply({ content: 'به چه دلیل تیکت باز کرده اید؟', components: [row], ephemeral: true });
         }
 
         case 'Ticket': {
@@ -96,7 +78,7 @@ module.exports = async (client, int) => {
 
             closeButton.setStyle('DANGER');
             closeButton.setLabel('بستن تیکت');
-            closeButton.setCustomId(`closeTicket_${int.member.id}`);
+            closeButton.setCustomId(`closeTicket`);
             const row = new MessageActionRow().addComponents(closeButton)
 
             if (!channel) {
@@ -127,13 +109,13 @@ module.exports = async (client, int) => {
                             id: "1151600958690828449"
                         },
                         {
-                            allow: permsToHave,
-                            id: "1151602168420376586"
+                            id: "1151600128822616145",
+                            allow: permsToHave
                         }
                     ]
                 }).then(async (channel) => {
                     await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1151609030603706499> / <@&1151600949748564028> / <@&1151600958690828449>`, embeds: [ticketEmbed], components: [row] });
-                    return int.update({ content: `<a:blackyes:969324088826949693> تیکت شما در چنل زیر باز شده است <a:blackyes:969324088826949693>\n<#${channel.id}>`, components: [], ephemeral: true });
+                    return int.editReply({ content: `<a:blackyes:969324088826949693> تیکت شما در چنل زیر باز شده است <a:blackyes:969324088826949693>\n<#${channel.id}>`, components: [], ephemeral: true });
                 })
             }
         }
@@ -169,19 +151,18 @@ module.exports = async (client, int) => {
                         {
                             allow: permsToHave,
                             id: "1151600958690828449"
+                        },
+                        {
+                            id: "1151600128822616145",
+                            allow: permsToHave
                         }
                     ]
                 }).then(async (channel) => {
                     let GetAdmin = int.guild.roles.cache.get("1151602163634675812"),
-                    president = int.guild.roles.cache.get("1151609030603706499"),
-                    prime = int.guild.roles.cache.get("1151600949748564028"),
-                    minister = int.guild.roles.cache.get("1151600958690828449")
-
-                    if (int.values[0] === 'newTicket_Adult') {
-                        channel.permissionOverwrites.edit(GetAdmin, { SEND_MESSAGES: true, VIEW_CHANNEL: true, READ_MESSAGE_HISTORY: true })
-                    } else if (int.values[0] === 'newTicket_Grate') {
-                        channel.permissionOverwrites.edit(GetAdmin, { SEND_MESSAGES: true, VIEW_CHANNEL: true, READ_MESSAGE_HISTORY: true })
-                    }
+                        cardinal = int.guild.roles.cache.get("1151609030603706499"),
+                        president = int.guild.roles.cache.get("1151600128822616145"),
+                        prime = int.guild.roles.cache.get("1151600949748564028"),
+                        minister = int.guild.roles.cache.get("1151600958690828449")
 
                     const ticketEmbed = new MessageEmbed();
 
@@ -193,7 +174,7 @@ module.exports = async (client, int) => {
 
                     closeButton.setStyle('DANGER');
                     closeButton.setLabel('بستن تیکت');
-                    closeButton.setCustomId(`closeTicket_${int.member.id}`);
+                    closeButton.setCustomId(`closeTicket`);
 
                     const row = new MessageActionRow().addComponents(closeButton);
                     if (int.values[0] === 'newTicket_Devs') {
@@ -201,11 +182,10 @@ module.exports = async (client, int) => {
                     } else if (int.values[0] === 'newTicket_Configure') {
                         await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1139624865071104183>`, embeds: [ticketEmbed], components: [row] });
                     } else if (int.values[0] === 'newTicket_Moderation') {
-                        await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n${president} / ${prime} / ${minister}`, embeds: [ticketEmbed], components: [row] });
-                    } else if (int.values[0] === 'newTicket_Adult') {
-                        await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<${president} / ${prime} / ${minister} / ${GetAdmin}`, embeds: [ticketEmbed], components: [row] });
-                    } else if (int.values[0] === 'newTicket_Grate') {
-                        await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<${president} / ${prime} / ${minister} / ${GetAdmin}`, embeds: [ticketEmbed], components: [row] });
+                        await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n${cardinal} / ${president} / ${prime} / ${minister}`, embeds: [ticketEmbed], components: [row] });
+                    } else if (int.values[0] === 'newTicket_Admin') {
+                        await channel.permissionOverwrites.edit(GetAdmin, { SEND_MESSAGES: true, VIEW_CHANNEL: true, READ_MESSAGE_HISTORY: true })
+                        await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n${cardinal} / ${president} / ${prime} / ${minister} / ${GetAdmin}`, embeds: [ticketEmbed], components: [row] });
                     } else if (int.values[0] === 'newTicket_Owner') {
                         await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n<@&1077282365853937734>`, embeds: [ticketEmbed], components: [row] });
                         channel.permissionOverwrites.edit(president, { VIEW_CHANNEL: false })
@@ -219,21 +199,21 @@ module.exports = async (client, int) => {
                     return int.update({ content: `<a:blackyes:969324088826949693> تیکت شما در چنل زیر باز شده است <a:blackyes:969324088826949693>\n<#${channel.id}>`, components: [], ephemeral: true });
                 })
             } else {
-                return int.update({ content: `<a:844610530182430731:1039980064462360636> شما از قبل تیکت باز کرده اید! <a:844610530182430731:1039980064462360636>\n<#${channel.id}>`, components: [], ephemeral: true });
+                return int.editReply({ content: `<a:844610530182430731:1039980064462360636> شما از قبل تیکت باز کرده اید! <a:844610530182430731:1039980064462360636>\n<#${channel.id}>`, components: [], ephemeral: true });
             }
         }
 
         case 'closeTicket': {
-            const channel = int.guild.channels.cache.get(int.channelId);
+            const closeTicket = int.guild.channels.cache.get(int.channelId);
 
-            await channel.edit({
+            await closeTicket.edit({
                 permissionOverwrites: [
                     {
                         id: int.guild.id,
                         deny: ['VIEW_CHANNEL', 'SEND_MESSAGES']
                     },
                     {
-                        id: channel.name.split("-")[1],
+                        id: closeTicket.name.split("-")[1],
                         deny: permsToHave
                     },
                     {
@@ -249,8 +229,8 @@ module.exports = async (client, int) => {
                         id: "1151600958690828449"
                     },
                     {
-                        allow: permsToHave,
-                        id: "1151602168420376586"
+                        id: "1151600128822616145",
+                        allow: permsToHave
                     }
                 ]
             });
