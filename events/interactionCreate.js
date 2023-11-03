@@ -1,7 +1,7 @@
 const { createWriteStream } = require('fs');
 const { EmbedBuilder, StringSelectMenuBuilder, ActionRowBuilder, ButtonBuilder, ChannelType, ButtonStyle } = require('discord.js');
 const { Database } = require("beta.db");
-const db = new Database("../database/infotickets.json")
+const db = new Database("./database/infotickets.json")
 let config = require('../config')
 
 module.exports = async (client, int) => {
