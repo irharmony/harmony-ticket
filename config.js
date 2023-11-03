@@ -1,6 +1,6 @@
 module.exports = {
     Client: {
-        Token: "ODMxMDkzNDM0OTM2NzIxNDU5.GDAOSi.zabjZmLyJv7sRbKDWlq3DVSYPw0oi3nD0TEXsY",
+        Token: "ODMxMDkzNDM0OTM2NxxxxxxxxxxxxxxxxxxxxxxxxxxxxWlq3DVSYPw0oi3nD0TEXsY",
         prefix: "t!",
     },
     Channels: {
