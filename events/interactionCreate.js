@@ -19,9 +19,9 @@ module.exports = async (client, int) => {
 
     switch (req) {
         case 'createTicket': {
-            if (int.member.roles.cache.has("1151602835851583488")) return int.reply({ content: "You don't have perm for create ticket.", ephemeral: true });
+            if (int.member.roles.cache.has(config.Roles.NoTicket)) return int.reply({ content: "You don't have perm for create ticket.", ephemeral: true });
 
-            if (int.member.roles.cache.has("1151602784567828520")) {
+            if (int.member.roles.cache.has(config.Roles.Banned)) {
                 let button = new ButtonBuilder().setCustomId(`Banned_${int.member.id}`).setLabel('رسیدگی به شکایت').setStyle(ButtonStyle.Danger)
                 const row1 = new ActionRowBuilder().addComponents([button]);
                 await int.deferReply({ fetchReply: true, ephemeral: true })
@@ -74,8 +74,16 @@ module.exports = async (client, int) => {
         }
 
         case 'Banned': {
-            let Hasdb = db.has(int.member.id)
-            let channelID = db.get(int.member.id)
+            const IntUserID = int.customId.split("_")[1];
+
+            let Hasdb = false
+            if (db.has(IntUserID)) {
+                Hasdb = true
+            } else if (db.has(int.channelId)) {
+                Hasdb = true
+            }
+
+            let channelID = db.get(IntUserID)
             let channel = guild.channels.cache.get(channelID)
 
             if (Hasdb) {
@@ -84,6 +92,7 @@ module.exports = async (client, int) => {
                     ephemeral: true
                 })
             } else {
+
                 db.set(int.channelId, int.member.id)
                 db.set(int.member.id, int.channelId)
 
@@ -95,13 +104,13 @@ module.exports = async (client, int) => {
                 const closeButton = new ButtonBuilder()
                     .setStyle(ButtonStyle.Danger)
                     .setLabel('بستن تیکت')
-                    .setCustomId(`closeTicket`);
+                    .setCustomId(`closeTicket_${IntUserID}`);
 
                 const row = new ActionRowBuilder().addComponents([closeButton])
 
                 await guild.channels.create({
                     name: `banned-${int.member.id}`,
-                    type: ChannelType.text,
+                    type: ChannelType.GuildText,
                     parent: config.Channels.ParentID,
                     topic: `ایجاد شده توسط : ${int.member.user.globalName}\nدرخواست ارتباط با : مدیریت سرور \n${new Date(Date.now()).toLocaleString()}`,
                     permissionOverwrites: [
@@ -127,7 +136,13 @@ module.exports = async (client, int) => {
         case 'newTicket': {
             const reason = int.values[0].split('_')[1], IntUserID = int.customId.split("_")[1]
 
-            let Hasdb = db.has(IntUserID)
+            let Hasdb = false
+            if (db.has(IntUserID)) {
+                Hasdb = true
+            } else if (db.has(int.channelId)) {
+                Hasdb = true
+            }
+
             let channelID = db.get(IntUserID)
             let channel = guild.channels.cache.get(channelID)
 
@@ -136,14 +151,14 @@ module.exports = async (client, int) => {
                     content: `یوزر ${int.user}، شما تیکت باز شده دارید.\n${channel}`,
                     ephemeral: true
                 })
-            }
-            else {
+            } else {
+
                 db.set(int.channelId, int.member.id)
                 db.set(int.member.id, int.channelId)
 
                 await guild.channels.create({
                     name: `ticket-${int.member.id}`,
-                    type: ChannelType.text,
+                    type: ChannelType.GuildText,
                     parent: config.Channels.ParentID,
                     topic: `ایجاد شده توسط : ${int.member.user.globalName}\nدرخواست ارتباط با : ${reason ? ` (${reason})` : ''} \n${new Date(Date.now()).toLocaleString()}`,
                     permissionOverwrites: [
@@ -214,7 +229,7 @@ module.exports = async (client, int) => {
             const deleteButton = new ButtonBuilder()
                 .setStyle(ButtonStyle.Danger)
                 .setLabel('حذف تیکت')
-                .setCustomId('deleteTicket');
+                .setCustomId(`deleteTicket_${IntUserID}`);
 
             const row = new ActionRowBuilder().addComponents([reopenButton, deleteButton]);
 
@@ -244,8 +259,9 @@ module.exports = async (client, int) => {
         }
 
         case 'deleteTicket': {
-            const channel = guild.channels.cache.get(int.channelId), LogChannel = guild.channels.cache.get(config.Channels.LogSave)
-
+            const channel = guild.channels.cache.get(int.channelId), LogChannel = guild.channels.cache.get(config.Channels.LogSave), IntUserID = int.customId.split("_")[1]
+            await db.remove(int.channelId)
+            await db.remove(IntUserID)
             await channel.messages.fetch().then(async msg => {
                 let messages = msg.filter(msg => msg.author.bot !== true).map(m => {
                     const date = new Date(m.createdTimestamp).toLocaleString();
