@@ -17,8 +17,6 @@ module.exports = async (client, int) => {
 
     client.emit('ticketsLogs', req, int.guild, int.member.user);
 
-    console.log(int.values)
-    console.log(int.customId, int.user.id)
     switch (req) {
         case 'createTicket': {
             if (int.member.roles.cache.has("1151602835851583488")) return int.reply({ content: "You don't have perm for create ticket.", ephemeral: true });
