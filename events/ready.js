@@ -1,9 +1,9 @@
-const { Category } = require('../config.json')
+const config = require('../config')
 module.exports = (client) => {
     console.log(`${client.user.username} ready to manage tickets !`);
 
     setInterval(() => {
-        var COUNT = client.channels.cache.filter(c => c.type === 'GUILD_TEXT' && c.parentId === Category).size - 2
+        var COUNT = client.channels.cache.filter(c => c.parentId === config.Channels.ParentID).size
 
         client.user.setPresence({
             status: 'dnd',

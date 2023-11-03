@@ -1,17 +1,14 @@
-const { Client, Intents } = require('discord.js');
+const { Client } = require('discord.js');
 
 global.client = new Client({
-    intents: [
-        Intents.FLAGS.GUILDS,
-        Intents.FLAGS.GUILD_MESSAGES
-    ]
+    intents: "3276799", disableMentions: 'everyone'
 });
 
-const { token } = require('./config.json');
+const config = require('./config');
 
 require('./src/loader');
 
-client.login(token);
+client.login(config.Client.Token);
 
 process.on('unhandledRejection', err => {
     console.log(err);
