@@ -1,5 +1,5 @@
 const { createWriteStream } = require('fs');
-const { EmbedBuilder, StringSelectMenuBuilder, ActionRowBuilder, ButtonBuilder, ChannelType, ButtonStyle } = require('discord.js');
+const { EmbedBuilder, StringSelectMenuBuilder, ActionRowBuilder, ButtonBuilder, ChannelType, ButtonStyle, roleMention } = require('discord.js');
 const { Database } = require("beta.db");
 const db = new Database("./database/infotickets.json")
 let config = require('../config')
@@ -29,7 +29,7 @@ module.exports = async (client, int) => {
             }
 
             const selectMenu = new StringSelectMenuBuilder()
-                .setCustomId('newTicket')
+                .setCustomId(`newTicket_${int.member.id}`)
                 .setPlaceholder('دلیل باز کردن تیکت را انتخاب کنید')
                 .addOptions([
                     {
@@ -53,7 +53,7 @@ module.exports = async (client, int) => {
                     {
                         emoji: '<:Mods:1153751222566785034>',
                         label: 'تیم مدیریت و شکایت',
-                        description: 'ارتباط با تیم مدیریتی سرور و ثبت شکایت',
+                        description: 'ارتباط با تیم مدیریتی سرور',
                         value: 'newTicket_Moderation'
                     },
                     {
@@ -66,27 +66,34 @@ module.exports = async (client, int) => {
                         label: 'درخواست ادمینی',
                         description: 'درخواست ادمینی در جیریت و ادولت',
                         value: 'newTicket_Admin'
+                    },
+                    {
+                        label: 'درخواست با تیم رسیدگی',
+                        description: 'درخواست ارتباط با تیم رسیدگی برای پیگیری شکایت',
+                        value: 'newTicket_Jug'
                     }
                 ]);
             const row = new ActionRowBuilder().addComponents([selectMenu]);
             await int.deferReply({ fetchReply: true, ephemeral: true })
             return int.editReply({ content: 'به چه دلیل تیکت باز کرده اید؟', components: [row], ephemeral: true });
         }
-
+            break;
         case 'Banned': {
             const IntUserID = int.customId.split("_")[1];
 
             let channel = guild.channels.cache.find(x => x.name === `ticket-${int.member.id}`);
 
             if (channel) {
-                return int.editReply({
+                return int.update({
                     ephemeral: true,
+                    embeds: [],
                     content: `You have a channel ticket.\n ${channel}`
                 })
             } else {
 
-                db.set(int.channelId, int.member.id)
-                db.set(int.member.id, int.channelId)
+                db.set(int.channelId, {
+                    creator: int.member.id
+                })
 
                 const ticketEmbed = new EmbedBuilder()
                     .setColor("Green")
@@ -116,29 +123,29 @@ module.exports = async (client, int) => {
                         }
                     ]
                 }).then(async (channel) => {
+                    db.set(c.id, {
+                        creator: IntUserID
+                    })
                     config.Roles.Access.map(async (r) => {
                         await channel.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
                     })
-                    await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n${config.Roles.Access.map(r => r)}`, embeds: [ticketEmbed], components: [row] });
-                    return int.editReply({ content: `<a:blackyes:969324088826949693> تیکت شما در چنل زیر باز شده است <a:blackyes:969324088826949693>\n<#${channel.id}>`, components: [], ephemeral: true });
+                    await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n${config.Roles.Access.map(r => roleMention(r))}`, embeds: [ticketEmbed], components: [row] });
+                    return int.update({ content: `<a:blackyes:969324088826949693> تیکت شما در چنل زیر باز شده است <a:blackyes:969324088826949693>\n${channel}`, components: [], ephemeral: true });
                 })
             }
         }
-
+            break;
         case 'newTicket': {
             const reason = int.values[0].split('_')[1], IntUserID = int.customId.split("_")[1]
             let channel = guild.channels.cache.find(x => x.name === `ticket-${int.member.id}`);
 
             if (channel) {
-                return int.editReply({
+                return int.update({
                     ephemeral: true,
+                    embeds: [],
                     content: `You have a channel ticket.\n ${channel}`
                 })
             } else {
-
-                db.set(int.channelId, int.member.id)
-                db.set(int.member.id, int.channelId)
-
                 await guild.channels.create({
                     name: `ticket-${int.member.id}`,
                     type: ChannelType.GuildText,
@@ -155,6 +162,9 @@ module.exports = async (client, int) => {
                         }
                     ]
                 }).then(async (c) => {
+                    db.set(c.id, {
+                        creator: IntUserID
+                    })
                     const ticketEmbed = new EmbedBuilder()
                         .setColor('Green')
                         .setAuthor({ name: `ارتباط با : ${reason ? ` (${reason})` : ''} ` })
@@ -174,31 +184,30 @@ module.exports = async (client, int) => {
                         config.Roles.Access.map(async (r) => {
                             await c.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
                         })
-                        await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n${config.Roles.Access.map(r => r)}`, embeds: [ticketEmbed], components: [row] });
+                        await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n${config.Roles.Access.map(r => roleMention(r))}`, embeds: [ticketEmbed], components: [row] });
                     } else if (int.values[0] === 'newTicket_Admin') {
                         config.Roles.Access.map(async (r) => {
                             await c.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
                         })
                         await c.permissionOverwrites.edit(GetAdmin, { ViewChannel: true, SendMessages: true }).then(() => {
-                            c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n$${config.Roles.Access.map(r => r)}, ${GetAdmin}`, embeds: [ticketEmbed], components: [row] });
+                            c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n$${config.Roles.Access.map(r => roleMention(r))}, ${GetAdmin}`, embeds: [ticketEmbed], components: [row] });
                         })
                     } else if (int.values[0] === 'newTicket_Owner') {
                         await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n<@&1077282365853937734>`, embeds: [ticketEmbed], components: [row] });
                     } else {
                         await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد`, embeds: [ticketEmbed], components: [row] });
                     }
-                    return int.update({ content: `<a:blackyes:969324088826949693> تیکت شما در چنل زیر باز شده است <a:blackyes:969324088826949693>\n${channel}`, components: [], ephemeral: true });
+                    return int.update({ content: `<a:blackyes:969324088826949693> تیکت شما در چنل زیر باز شده است <a:blackyes:969324088826949693>\n${c}`, components: [], ephemeral: true });
                 })
             }
         }
+            break;
 
         case 'closeTicket': {
-            const IntUserID = int.customId.split("_")[1]
+            let channel = guild.channels.cache.get(int.channelId)
+            let Owner = db.get(int.channelId).creator
 
-            let channelID = db.get(IntUserID)
-            let channel = guild.channels.cache.get(channelID)
-
-            await channel.permissionOverwrites.edit(IntUserID, { ViewChannel: false })
+            await channel.permissionOverwrites.edit(Owner, { ViewChannel: false })
 
             const ticketEmbed = new EmbedBuilder()
                 .setColor('Red')
@@ -207,25 +216,24 @@ module.exports = async (client, int) => {
             const reopenButton = new ButtonBuilder()
                 .setStyle(ButtonStyle.Success)
                 .setLabel('دوباره باز کردن')
-                .setCustomId(`reopenTicket_${IntUserID}`);
+                .setCustomId(`reopenTicket_${Owner}`);
 
             const deleteButton = new ButtonBuilder()
                 .setStyle(ButtonStyle.Danger)
                 .setLabel('حذف تیکت')
-                .setCustomId(`deleteTicket_${IntUserID}`);
+                .setCustomId(`deleteTicket_${Owner}`);
 
             const row = new ActionRowBuilder().addComponents([reopenButton, deleteButton]);
 
-            return int.editReply({ content: '<:ignore:969323939094478918> عملیات بستن تیکت', embeds: [ticketEmbed], components: [row] });
+            return int.reply({ content: '<:ignore:969323939094478918> عملیات بستن تیکت', embeds: [ticketEmbed], components: [row] });
         }
-
+            break;
         case 'reopenTicket': {
-            const IntUserID = int.customId.split("_")[1]
+            let channel = guild.channels.cache.get(int.channelId)
 
-            let channelID = db.get(IntUserID)
-            let channel = guild.channels.cache.get(channelID)
+            let Owner = db.get(int.channelId).creator
 
-            await channel.permissionOverwrites.edit(IntUserID, { ViewChannel: true })
+            await channel.permissionOverwrites.edit(Owner, { ViewChannel: true })
 
             const ticketEmbed = new EmbedBuilder()
                 .setColor('Green')
@@ -234,17 +242,20 @@ module.exports = async (client, int) => {
             const closeButton = new ButtonBuilder()
                 .setStyle(ButtonStyle.Danger)
                 .setLabel('بستن تیکت')
-                .setCustomId(`closeTicket_${IntUserID}`);
+                .setCustomId(`closeTicket_${Owner}`);
 
             const row = new ActionRowBuilder().addComponents([closeButton]);
 
             return int.editReply({ content: '<a:blackyes:969324088826949693> تیکت دوباره باز شد ', embeds: [ticketEmbed], components: [row] });
         }
-
+            break;
         case 'deleteTicket': {
-            const channel = guild.channels.cache.get(int.channelId), LogChannel = guild.channels.cache.get(config.Channels.LogSave), IntUserID = int.customId.split("_")[1]
-            await db.remove(int.channelId)
-            await db.remove(IntUserID)
+            await int.update({
+                content: "تیکت درحال دیلیت شدن است",
+                embeds: []
+            })
+            const channel = guild.channels.cache.get(int.channelId), LogChannel = guild.channels.cache.get(config.Channels.LogSave);
+            await db.deleteEach(int.channelId)
             await channel.messages.fetch().then(async msg => {
                 let messages = msg.filter(msg => msg.author.bot !== true).map(m => {
                     const date = new Date(m.createdTimestamp).toLocaleString();
@@ -274,5 +285,6 @@ module.exports = async (client, int) => {
                 channel.delete();
             }, 5000);
         }
+            break;
     }
 };
