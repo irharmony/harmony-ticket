@@ -76,20 +76,12 @@ module.exports = async (client, int) => {
         case 'Banned': {
             const IntUserID = int.customId.split("_")[1];
 
-            let Hasdb = false
-            if (db.has(IntUserID)) {
-                Hasdb = true
-            } else if (db.has(int.channelId)) {
-                Hasdb = true
-            }
+            let channel = guild.channels.cache.find(x => x.name === `ticket-${int.member.id}`);
 
-            let channelID = db.get(IntUserID)
-            let channel = guild.channels.cache.get(channelID)
-
-            if (Hasdb) {
+            if (channel) {
                 return int.editReply({
-                    content: `یوزر ${int.user}، شما تیکت باز شده دارید.\n${channel}`,
-                    ephemeral: true
+                    ephemeral: true,
+                    content: `You have a channel ticket.\n ${channel}`
                 })
             } else {
 
@@ -135,21 +127,12 @@ module.exports = async (client, int) => {
 
         case 'newTicket': {
             const reason = int.values[0].split('_')[1], IntUserID = int.customId.split("_")[1]
+            let channel = guild.channels.cache.find(x => x.name === `ticket-${int.member.id}`);
 
-            let Hasdb = false
-            if (db.has(IntUserID)) {
-                Hasdb = true
-            } else if (db.has(int.channelId)) {
-                Hasdb = true
-            }
-
-            let channelID = db.get(IntUserID)
-            let channel = guild.channels.cache.get(channelID)
-
-            if (Hasdb) {
+            if (channel) {
                 return int.editReply({
-                    content: `یوزر ${int.user}، شما تیکت باز شده دارید.\n${channel}`,
-                    ephemeral: true
+                    ephemeral: true,
+                    content: `You have a channel ticket.\n ${channel}`
                 })
             } else {
 
