@@ -24,3 +24,7 @@ for (const file of commands) {
     client.commands.set(command.name.toLowerCase(), command);
     delete require.cache[require.resolve(`../commands/${file}`)];
 };
+
+process.on('unhandledRejection', err => {
+    return console.log(err);
+});

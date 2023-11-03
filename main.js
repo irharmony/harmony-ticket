@@ -10,6 +10,3 @@ require('./src/loader');
 
 client.login(config.Client.Token);
 
-process.on('unhandledRejection', err => {
-    console.log(err);
-});

@@ -75,7 +75,7 @@ module.exports = async (client, int) => {
                 ]);
             const row = new ActionRowBuilder().addComponents([selectMenu]);
             await int.deferReply({ fetchReply: true, ephemeral: true })
-            return int.editReply({ content: 'به چه دلیل تیکت باز کرده اید؟', components: [row], ephemeral: true });
+            int.editReply({ content: 'به چه دلیل تیکت باز کرده اید؟', components: [row], ephemeral: true });
         }
             break;
         case 'Banned': {
@@ -90,11 +90,6 @@ module.exports = async (client, int) => {
                     content: `You have a channel ticket.\n ${channel}`
                 })
             } else {
-
-                db.set(int.channelId, {
-                    creator: int.member.id
-                })
-
                 const ticketEmbed = new EmbedBuilder()
                     .setColor("Green")
                     .setAuthor({ name: `ارتباط با : مدیریت سرور ` })
@@ -123,14 +118,14 @@ module.exports = async (client, int) => {
                         }
                     ]
                 }).then(async (channel) => {
-                    db.set(c.id, {
+                    db.set(channel.id, {
                         creator: IntUserID
                     })
                     config.Roles.Access.map(async (r) => {
                         await channel.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
                     })
                     await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n${config.Roles.Access.map(r => roleMention(r))}`, embeds: [ticketEmbed], components: [row] });
-                    return int.update({ content: `<a:blackyes:969324088826949693> تیکت شما در چنل زیر باز شده است <a:blackyes:969324088826949693>\n${channel}`, components: [], ephemeral: true });
+                    int.update({ content: `<a:blackyes:969324088826949693> تیکت شما در چنل زیر باز شده است <a:blackyes:969324088826949693>\n${channel}`, components: [], ephemeral: true });
                 })
             }
         }
@@ -181,17 +176,22 @@ module.exports = async (client, int) => {
                     } else if (int.values[0] === 'newTicket_Configure') {
                         await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n<@&1139624865071104183>`, embeds: [ticketEmbed], components: [row] });
                     } else if (int.values[0] === 'newTicket_Moderation') {
-                        config.Roles.Access.map(async (r) => {
+                        config.Roles.Moderator.map(async (r) => {
                             await c.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
                         })
-                        await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n${config.Roles.Access.map(r => roleMention(r))}`, embeds: [ticketEmbed], components: [row] });
+                        await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n${config.Roles.Moderator.map(r => roleMention(r)).join(", ")}`, embeds: [ticketEmbed], components: [row] });
                     } else if (int.values[0] === 'newTicket_Admin') {
-                        config.Roles.Access.map(async (r) => {
+                        config.Roles.Moderator.map(async (r) => {
                             await c.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
                         })
                         await c.permissionOverwrites.edit(GetAdmin, { ViewChannel: true, SendMessages: true }).then(() => {
-                            c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n$${config.Roles.Access.map(r => roleMention(r))}, ${GetAdmin}`, embeds: [ticketEmbed], components: [row] });
+                            c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n${config.Roles.Moderator.map(r => roleMention(r))}, ${GetAdmin}`, embeds: [ticketEmbed], components: [row] });
                         })
+                    } else if (int.values[0] === 'newTicket_Jug') {
+                        config.Roles.Jug.map(async (r) => {
+                            await c.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
+                        })
+                        await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n${config.Roles.Jug.map(r => roleMention(r))}`, embeds: [ticketEmbed], components: [row] })
                     } else if (int.values[0] === 'newTicket_Owner') {
                         await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n<@&1077282365853937734>`, embeds: [ticketEmbed], components: [row] });
                     } else {
@@ -225,7 +225,7 @@ module.exports = async (client, int) => {
 
             const row = new ActionRowBuilder().addComponents([reopenButton, deleteButton]);
 
-            return int.reply({ content: '<:ignore:969323939094478918> عملیات بستن تیکت', embeds: [ticketEmbed], components: [row] });
+            int.reply({ content: '<:ignore:969323939094478918> عملیات بستن تیکت', embeds: [ticketEmbed], components: [row] });
         }
             break;
         case 'reopenTicket': {
@@ -246,13 +246,14 @@ module.exports = async (client, int) => {
 
             const row = new ActionRowBuilder().addComponents([closeButton]);
 
-            return int.editReply({ content: '<a:blackyes:969324088826949693> تیکت دوباره باز شد ', embeds: [ticketEmbed], components: [row] });
+            int.editReply({ content: '<a:blackyes:969324088826949693> تیکت دوباره باز شد ', embeds: [ticketEmbed], components: [row] });
         }
             break;
         case 'deleteTicket': {
             await int.update({
                 content: "تیکت درحال دیلیت شدن است",
-                embeds: []
+                embeds: [],
+                components: []
             })
             const channel = guild.channels.cache.get(int.channelId), LogChannel = guild.channels.cache.get(config.Channels.LogSave);
             await db.deleteEach(int.channelId)
