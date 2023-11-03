@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npx nodemon ./main.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/irharmony/harmony-ticket#readme",
   "dependencies": {
+    "beta.db": "^3.0.2",
     "discord.js": "^14.13.0"
   }
 }
