@@ -125,7 +125,7 @@ module.exports = async (client, int) => {
                         await channel.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
                     })
                     await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n${config.Roles.Access.map(r => roleMention(r))}`, embeds: [ticketEmbed], components: [row] });
-                    int.update({ content: `<a:blackyes:969324088826949693> تیکت شما در چنل زیر باز شده است <a:blackyes:969324088826949693>\n${channel}`, components: [], ephemeral: true });
+                    await int.update({ content: `<a:blackyes:969324088826949693> تیکت شما در چنل زیر باز شده است <a:blackyes:969324088826949693>\n${channel}`, components: [], embeds: [], ephemeral: true });
                 })
             }
         }
@@ -197,7 +197,7 @@ module.exports = async (client, int) => {
                     } else {
                         await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد`, embeds: [ticketEmbed], components: [row] });
                     }
-                    return int.update({ content: `<a:blackyes:969324088826949693> تیکت شما در چنل زیر باز شده است <a:blackyes:969324088826949693>\n${c}`, components: [], ephemeral: true });
+                    return int.update({ content: `<a:blackyes:969324088826949693> تیکت شما در چنل زیر باز شده است <a:blackyes:969324088826949693>\n${c}`, components: [], embeds: [], ephemeral: true });
                 })
             }
         }
@@ -205,9 +205,11 @@ module.exports = async (client, int) => {
 
         case 'closeTicket': {
             let channel = guild.channels.cache.get(int.channelId)
-            let Owner = db.get(int.channelId).creator
-
-            await channel.permissionOverwrites.edit(Owner, { ViewChannel: false })
+            let Owner = null;
+            if (db.has(int.channelId)) {
+                Owner = db.get(int.channelId).creator
+                await channel.permissionOverwrites.edit(Owner, { ViewChannel: true })
+            }
 
             const ticketEmbed = new EmbedBuilder()
                 .setColor('Red')
@@ -230,10 +232,11 @@ module.exports = async (client, int) => {
             break;
         case 'reopenTicket': {
             let channel = guild.channels.cache.get(int.channelId)
-
-            let Owner = db.get(int.channelId).creator
-
-            await channel.permissionOverwrites.edit(Owner, { ViewChannel: true })
+            let Owner = null;
+            if (db.has(int.channelId)) {
+                Owner = db.get(int.channelId).creator
+                await channel.permissionOverwrites.edit(Owner, { ViewChannel: true })
+            }
 
             const ticketEmbed = new EmbedBuilder()
                 .setColor('Green')
@@ -246,7 +249,7 @@ module.exports = async (client, int) => {
 
             const row = new ActionRowBuilder().addComponents([closeButton]);
 
-            int.editReply({ content: '<a:blackyes:969324088826949693> تیکت دوباره باز شد ', embeds: [ticketEmbed], components: [row] });
+            int.reply({ content: '<a:blackyes:969324088826949693> تیکت دوباره باز شد ', embeds: [ticketEmbed], components: [row] });
         }
             break;
         case 'deleteTicket': {
