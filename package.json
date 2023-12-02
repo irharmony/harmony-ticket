@@ -6,6 +6,11 @@
   "scripts": {
     "start": "npx nodemon ./main.js"
   },
+  "nodemonConfig": {
+    "ignore": [
+      "*.json"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/irharmony/harmony-ticket.git"
