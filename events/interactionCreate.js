@@ -9,15 +9,7 @@ module.exports = {
     name: Events.InteractionCreate,
     async execute(int, client) {
 
-        const req = int.customId.split('_')[0], { guild } = int,
-            Cardinal = guild.roles.cache.get(config.Roles.Cardinal), // Cardinal
-            Root = guild.roles.cache.get(config.Roles.Root), // Root
-            Marshall = guild.roles.cache.get(config.Roles.Marshall), // Marshall
-            YourHoner = guild.roles.cache.get(config.Roles.YourHoner), // Your Honer
-            Prime = guild.roles.cache.get(config.Roles.Prime), // Prime
-            Cia = guild.roles.cache.get(config.Roles.Cia), // Cia
-            Minister = guild.roles.cache.get(config.Roles.Minister), // Minister
-            GetAdmin = guild.roles.cache.get(config.Roles.GetAdmin)  // Orgenizer
+        const req = int.customId.split('_')[0], { guild } = int;
 
         client.emit('ticketsLogs', req, int.guild, int.member.user);
 
@@ -38,8 +30,8 @@ module.exports = {
                     .addOptions([
                         {
                             emoji: '<a:i_:1020365613312512111>',
-                            label: 'غیره',
-                            description: 'سوال های عمومی',
+                            label: 'نقد و انتقادات',
+                            description: 'نقد و انتقادات',
                             value: 'newTicket_General'
                         },
                         {
@@ -60,19 +52,13 @@ module.exports = {
                             description: 'ارتباط با تیم مدیریتی سرور',
                             value: 'newTicket_Moderation'
                         },
+                        // {
+                        //     label: 'درخواست ادمینی',
+                        //     description: 'درخواست ادمینی در جیریت و ادولت',
+                        //     value: 'newTicket_Admin'
+                        // },
                         {
-                            emoji: '<:Owner:1155779741501116446>',
-                            label: 'ارتباط با اونر ها',
-                            description: 'ارتباط با اونر های سرور هارمونی',
-                            value: 'newTicket_Owner'
-                        },
-                        {
-                            label: 'درخواست ادمینی',
-                            description: 'درخواست ادمینی در جیریت و ادولت',
-                            value: 'newTicket_Admin'
-                        },
-                        {
-                            label: 'درخواست با تیم رسیدگی',
+                            label: 'ارتباط با تیم رسیدگی',
                             description: 'درخواست ارتباط با تیم رسیدگی برای پیگیری شکایت',
                             value: 'newTicket_Jug'
                         }
@@ -123,10 +109,10 @@ module.exports = {
                         db.set(channel.id, {
                             creator: int.member.id
                         })
-                        config.Roles.Access.map(async (r) => {
+                        config.Roles.Jug.map(async (r) => {
                             await channel.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
                         })
-                        await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n${config.Roles.Access.map(r => roleMention(r))}`, embeds: [ticketEmbed], components: [row] });
+                        await channel.send({ content: `<@${int.member.user.id}> تیکت شما با موفقیت ساخته شد\n${config.Roles.Jug.map(r => roleMention(r))}`, embeds: [ticketEmbed], components: [row] });
                         await int.update({ content: `<a:blackyes:969324088826949693> تیکت شما در چنل زیر باز شده است <a:blackyes:969324088826949693>\n${channel}`, components: [], embeds: [], ephemeral: true });
                     })
                 }
@@ -178,24 +164,27 @@ module.exports = {
                         } else if (int.values[0] === 'newTicket_Configure') {
                             await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n<@&1139624865071104183>`, embeds: [ticketEmbed], components: [row] });
                         } else if (int.values[0] === 'newTicket_Moderation') {
-                            config.Roles.Jug.map(async (r) => {
+                            config.Roles.Moderator.map(async (r) => {
                                 await c.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
                             })
                             await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n${config.Roles.Jug.map(r => roleMention(r))}`, embeds: [ticketEmbed], components: [row] });
-                        } else if (int.values[0] === 'newTicket_Admin') {
-                            config.Roles.Jug.map(async (r) => {
-                                await c.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
-                            })
-                            await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n${config.Roles.Jug.map(r => roleMention(r))}`, embeds: [ticketEmbed], components: [row] });
+                        } else 
+                        // if (int.values[0] === 'newTicket_Admin') {
+                        //     config.Roles.Jug.map(async (r) => {
+                        //         await c.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
+                        //     })
+                        //     await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n${config.Roles.Jug.map(r => roleMention(r))}`, embeds: [ticketEmbed], components: [row] });
 
-                        } else if (int.values[0] === 'newTicket_Jug') {
+                        // } else 
+                        if (int.values[0] === 'newTicket_Jug') {
                             config.Roles.Jug.map(async (r) => {
                                 await c.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
                             })
                             await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n${config.Roles.Jug.map(r => roleMention(r))}`, embeds: [ticketEmbed], components: [row] })
-                        } else if (int.values[0] === 'newTicket_Owner') {
-                            await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n<@&1077282365853937734>`, embeds: [ticketEmbed], components: [row] });
                         } else {
+                            config.Roles.Moderator.map(async (r) => {
+                                await c.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
+                            })
                             await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد`, embeds: [ticketEmbed], components: [row] });
                         }
                         int.update({ content: `<a:blackyes:969324088826949693> تیکت شما در چنل زیر باز شده است <a:blackyes:969324088826949693>\n${c}`, components: [], embeds: [], ephemeral: true });
