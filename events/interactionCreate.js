@@ -154,7 +154,7 @@ module.exports = {
                             .setCustomId(`closeTicket_${IntUserID}`)
 
                         const move = new ButtonBuilder()
-                            .setStyle(ButtonStyle.Danger)
+                            .setStyle(ButtonStyle.Success)
                             .setLabel('انتقال به سکشن دیگر')
                             .setCustomId(`moveSection_${IntUserID}`)
 
