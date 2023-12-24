@@ -1,5 +1,5 @@
 const { createWriteStream } = require('fs');
-const { EmbedBuilder, StringSelectMenuBuilder, ActionRowBuilder, ButtonBuilder, ChannelType, ButtonStyle, roleMention, Events } = require('discord.js');
+const { EmbedBuilder, StringSelectMenuBuilder, ActionRowBuilder, ButtonBuilder, ChannelType, ButtonStyle, roleMention, Events, ComponentType } = require('discord.js');
 const { Database } = require("beta.db");
 const db = new Database("./database/infotickets.json")
 let config = require('../config')
@@ -47,20 +47,15 @@ module.exports = {
                             value: 'newTicket_Configure'
                         },
                         {
-                            emoji: '<:Mods:1153751222566785034>',
-                            label: 'تیم مدیریت و شکایت',
-                            description: 'ارتباط با تیم مدیریتی سرور',
-                            value: 'newTicket_Moderation'
-                        },
-                        // {
-                        //     label: 'درخواست ادمینی',
-                        //     description: 'درخواست ادمینی در جیریت و ادولت',
-                        //     value: 'newTicket_Admin'
-                        // },
-                        {
-                            label: 'ارتباط با تیم رسیدگی',
+                            label: ' تیم رسیدگی و شکایت',
                             description: 'درخواست ارتباط با تیم رسیدگی برای پیگیری شکایت',
                             value: 'newTicket_Jug'
+                        },
+                        {
+                            emoji: '<:Mods:1153751222566785034>',
+                            label: 'تیم مدیریت',
+                            description: 'ارتباط با تیم مدیریتی سرور',
+                            value: 'newTicket_Moderation'
                         }
                     ]);
                 const row = new ActionRowBuilder().addComponents([selectMenu]);
@@ -158,7 +153,12 @@ module.exports = {
                             .setLabel('بستن تیکت')
                             .setCustomId(`closeTicket_${IntUserID}`)
 
-                        const row = new ActionRowBuilder().addComponents([closeButton]);
+                        const move = new ButtonBuilder()
+                            .setStyle(ButtonStyle.Danger)
+                            .setLabel('انتقال به سکشن دیگر')
+                            .setCustomId(`moveSection_${IntUserID}`)
+
+                        const row = new ActionRowBuilder().addComponents([closeButton, move]);
                         if (int.values[0] === 'newTicket_Devs') {
                             await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n<@&988140030180614174>`, embeds: [ticketEmbed], components: [row] });
                         } else if (int.values[0] === 'newTicket_Configure') {
@@ -167,16 +167,8 @@ module.exports = {
                             config.Roles.Moderator.map(async (r) => {
                                 await c.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
                             })
-                            await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n${config.Roles.Jug.map(r => roleMention(r))}`, embeds: [ticketEmbed], components: [row] });
-                        } else 
-                        // if (int.values[0] === 'newTicket_Admin') {
-                        //     config.Roles.Jug.map(async (r) => {
-                        //         await c.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
-                        //     })
-                        //     await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n${config.Roles.Jug.map(r => roleMention(r))}`, embeds: [ticketEmbed], components: [row] });
-
-                        // } else 
-                        if (int.values[0] === 'newTicket_Jug') {
+                            await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n${config.Roles.Moderator.map(r => roleMention(r))}`, embeds: [ticketEmbed], components: [row] });
+                        } else if (int.values[0] === 'newTicket_Jug') {
                             config.Roles.Jug.map(async (r) => {
                                 await c.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
                             })
@@ -192,14 +184,156 @@ module.exports = {
                 }
             }
                 break;
+            case 'moveSection': {
+                if (!int.member.roles.cache.find(role => config.Roles.All.includes(role.id))) return int.reply({ content: `${int.member}, شما دسترسی به این باتن ندارید.`, ephemeral: true })
+                let channel = int.channel
 
+                const moveEmbed = new EmbedBuilder()
+                    .setColor('Green')
+                    .setAuthor({ name: `انتقال تیکت به سکشن دیگر` })
+                    .setDescription('لطفا سکشنی که میخاهید این تیکت به ان انتقال پیدا کند را انتخاب کنید')
+
+                const jugment = new ButtonBuilder()
+                    .setStyle(ButtonStyle.Secondary)
+                    .setLabel('Jugment')
+                    .setCustomId(`jugment`)
+
+                const moderator = new ButtonBuilder()
+                    .setStyle(ButtonStyle.Secondary)
+                    .setLabel('Moderator')
+                    .setCustomId(`moderator`)
+
+                const celestial = new ButtonBuilder()
+                    .setStyle(ButtonStyle.Secondary)
+                    .setLabel('Celestial')
+                    .setCustomId(`celestial`)
+
+                const developer = new ButtonBuilder()
+                    .setStyle(ButtonStyle.Secondary)
+                    .setLabel('Developer')
+                    .setCustomId(`developer`)
+
+                const exit = new ButtonBuilder()
+                    .setStyle(ButtonStyle.Danger)
+                    .setLabel('exit')
+                    .setCustomId(`exit`)
+
+                const buttonMove = new ActionRowBuilder().addComponents([jugment, moderator, celestial, developer, exit]);
+                await int.deferReply({ fetchReply: true, ephemeral: true });
+                let msg = await int.followUp({
+                    embeds: [moveEmbed],
+                    components: [buttonMove],
+                    ephemeral: true
+                })
+
+                let collector = msg.createMessageComponentCollector({ componentType: ComponentType.StringSelect, time: 30000 })
+                collector.on("collect", async (intCol) => {
+                    let moveType = intCol.values[0]
+                    if (moveType === "jugment") {
+                        config.Roles.Jug.map(async (r) => {
+                            await channel.permissionOverwrites.set([
+                                {
+                                    id: intCol.guild.id,
+                                    deny: [config.Perms.DenyPermNormal]
+                                },
+                                {
+                                    id: intCol.member.id,
+                                    allow: [config.Perms.AllowPermToAdmin]
+                                },
+                            ])
+                            await channel.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
+                        })
+                        await channel.send({ content: `${intCol.member} تیکت شما با موفقیت منتقل شد\n${config.Roles.Jug.map(r => roleMention(r))}` });
+                        await intCol.update({
+                            content: `${intCol.member} منتقل شد.`,
+                            embeds: [],
+                            components: [],
+                            ephemeral: true
+                        })
+                    } else if (moveType === "moderator") {
+                        config.Roles.Moderator.map(async (r) => {
+                            await channel.permissionOverwrites.set([
+                                {
+                                    id: intCol.guild.id,
+                                    deny: [config.Perms.DenyPermNormal]
+                                },
+                                {
+                                    id: intCol.member.id,
+                                    allow: [config.Perms.AllowPermToAdmin]
+                                },
+                            ])
+                            await channel.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
+                        })
+                        await channel.send({ content: `${intCol.member} تیکت شما با موفقیت منتقل شد\n${config.Roles.Moderator.map(r => roleMention(r))}` });
+                        await intCol.update({
+                            content: `${intCol.member} منتقل شد.`,
+                            embeds: [],
+                            components: [],
+                            ephemeral: true
+                        })
+                    } else if (moveType === "celestial") {
+                        await channel.permissionOverwrites.set([
+                            {
+                                id: intCol.guild.id,
+                                deny: [config.Perms.DenyPermNormal]
+                            },
+                            {
+                                id: intCol.member.id,
+                                allow: [config.Perms.AllowPermToAdmin]
+                            },
+                        ])
+                        await channel.send({ content: `${intCol.member} تیکت شما با موفقیت منتقل شد\n<@&988140030180614174>` });
+                        await intCol.update({
+                            content: `${intCol.member} منتقل شد.`,
+                            embeds: [],
+                            components: [],
+                            ephemeral: true
+                        })
+                    } else if (moveType === "developer") {
+                        await channel.permissionOverwrites.set([
+                            {
+                                id: intCol.guild.id,
+                                deny: [config.Perms.DenyPermNormal]
+                            },
+                            {
+                                id: intCol.member.id,
+                                allow: [config.Perms.AllowPermToAdmin]
+                            },
+                            {
+                                id: "1185176342266916965",
+                                allow: [config.Perms.AllowPermToAdmin]
+                            }
+                        ])
+                        await channel.send({ content: `${intCol.member} تیکت شما با موفقیت منتقل شد\n<@&1139624865071104183> / <@&1185176342266916965>` });
+                        await intCol.update({
+                            content: `${intCol.member} منتقل شد.`,
+                            embeds: [],
+                            components: [],
+                            ephemeral: true
+                        })
+                    } else if (moveType === "exit") return intCol.update({
+                        content: `به درخواست شما این باتن کنسل شد.`,
+                        embeds: [],
+                        components: [],
+                        ephemeral: true
+                    })
+                })
+                collector.on("end", async (collected, reason) => {
+                    if (collected.size === 0) {
+                        return i.editReply({ content: "Action timeout", embeds: [], components: [], ephemeral: true })
+                    } else if (collected.size === 1) {
+                        return i.editReply({ components: [], ephemeral: true });
+                    }
+                })
+            }
+                break;
             case 'closeTicket': {
                 try {
                     let channel = guild.channels.cache.get(int.channelId)
                     let Owner = null;
                     if (db.has(int.channelId)) {
                         Owner = db.get(int.channelId).creator
-                        await channel.permissionOverwrites.edit(Owner, { ViewChannel: true })
+                        await channel.permissionOverwrites.edit(Owner, { ViewChannel: false })
                     }
 
                     const ticketEmbed = new EmbedBuilder()
