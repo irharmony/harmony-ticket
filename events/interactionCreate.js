@@ -320,9 +320,9 @@ module.exports = {
                 })
                 collector.on("end", async (collected, reason) => {
                     if (collected.size === 0) {
-                        return i.editReply({ content: "Action timeout", embeds: [], components: [], ephemeral: true })
+                        return int.editReply({ content: "Action timeout", embeds: [], components: [], ephemeral: true })
                     } else if (collected.size === 1) {
-                        return i.editReply({ components: [], ephemeral: true });
+                        return int.editReply({ components: [], ephemeral: true });
                     }
                 })
             }
