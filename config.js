@@ -1,6 +1,6 @@
 module.exports = {
     Client: {
-        Token: "ODMxMDkzNDM0OTM2NzIxNDU5.G5Uzz6.OIhF9AwoUwnyfWzfK0hGvy9kj8G80sYxe67BrQ",
+        Token: "",
         prefix: "t!",
     },
     Channels: {
@@ -27,11 +27,22 @@ module.exports = {
             "1177714009529667674", // 𝗖𝗮𝗹𝗺𝗻𝗲𝘀𝘀
             "1153372394476544081", // Recpected
             "1151609030603706499", // Cardinal
+            "1179532922408153169", // Ticket Support
         ],
         Jug: [
             "1179536049005928529", // Senator
             "1179531813711003688", // Justice Central
-            "1179536854421348482", // Court  
+            "1179536854421348482", // Court
+            "1179532922408153169", // Ticket Support  
+        ],
+        All: [
+            "1177714009529667674", // 𝗖𝗮𝗹𝗺𝗻𝗲𝘀𝘀
+            "1153372394476544081", // Recpected
+            "1151609030603706499", // Cardinal
+            "1179536049005928529", // Senator
+            "1179531813711003688", // Justice Central
+            "1179536854421348482", // Court
+            "1179532922408153169", // Ticket Support  
         ],
 
         GetAdmin: "1151602163634675812", // Orgenizer
