@@ -226,7 +226,7 @@ module.exports = {
                     ephemeral: true
                 })
 
-                let collector = msg.createMessageComponentCollector({ componentType: ComponentType.StringSelect, time: 30000 })
+                let collector = msg.createMessageComponentCollector({ componentType: ComponentType.Button, time: 30000 })
                 collector.on("collect", async (intCol) => {
                     let moveType = intCol.values[0]
                     if (moveType === "jugment") {
