@@ -191,7 +191,7 @@ module.exports = {
                 const moveEmbed = new EmbedBuilder()
                     .setColor('Green')
                     .setAuthor({ name: `انتقال تیکت به سکشن دیگر` })
-                    .setDescription('لطفا سکشنی که میخاهید این تیکت به ان انتقال پیدا کند را انتخاب کنید')
+                    .setDescription('لطفا سکشنی که می خواهید این تیکت به ان انتقال پیدا کند را انتخاب کنید')
 
                 const jugment = new ButtonBuilder()
                     .setStyle(ButtonStyle.Secondary)
