@@ -228,7 +228,7 @@ module.exports = {
 
                 let collector = msg.createMessageComponentCollector({ componentType: ComponentType.Button, time: 30000 })
                 collector.on("collect", async (intCol) => {
-                    let moveType = intCol.values[0]
+                    let moveType = intCol.customId
                     if (moveType === "jugment") {
                         config.Roles.Jug.map(async (r) => {
                             await channel.permissionOverwrites.set([
