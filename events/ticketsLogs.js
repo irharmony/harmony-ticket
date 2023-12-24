@@ -4,7 +4,7 @@ const config = require('../config');
 module.exports = {
     name: "ticketsLogs",
     once: false,
-    async execute(client, type, guild, user) {
+    async execute(type, guild, user, client) {
 
         const channel = client.channels.cache.get(config.Channels.Log), Save = client.channels.cache.get(config.Channels.LogSave)
         const logEmbed = new EmbedBuilder(), Button = new ButtonBuilder().setURL(`https://discord.com/channels/${guild.id}/${Save.id}/${Save.lastMessageId}`).setEmoji("700620537503678565").setLabel('Jump to SaveLog').setStyle(ButtonStyle.Link),
