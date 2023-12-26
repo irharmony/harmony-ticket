@@ -229,6 +229,7 @@ module.exports = {
                 let collector = msg.createMessageComponentCollector({ componentType: ComponentType.Button, time: 30000 })
                 collector.on("collect", async (intCol) => {
                     let moveType = intCol.customId
+                    let ownerTicket = intCol.channel.name.split("-")[1]
                     if (moveType === "jugment") {
                         config.Roles.Jug.map(async (r) => {
                             await channel.permissionOverwrites.set([
@@ -237,7 +238,7 @@ module.exports = {
                                     deny: [config.Perms.DenyPermNormal]
                                 },
                                 {
-                                    id: intCol.member.id,
+                                    id: ownerTicket,
                                     allow: [config.Perms.AllowPermToAdmin]
                                 },
                             ])
@@ -258,7 +259,7 @@ module.exports = {
                                     deny: [config.Perms.DenyPermNormal]
                                 },
                                 {
-                                    id: intCol.member.id,
+                                    id: ownerTicket,
                                     allow: [config.Perms.AllowPermToAdmin]
                                 },
                             ])
@@ -278,7 +279,7 @@ module.exports = {
                                 deny: [config.Perms.DenyPermNormal]
                             },
                             {
-                                id: intCol.member.id,
+                                id: ownerTicket,
                                 allow: [config.Perms.AllowPermToAdmin]
                             },
                         ])
@@ -296,7 +297,7 @@ module.exports = {
                                 deny: [config.Perms.DenyPermNormal]
                             },
                             {
-                                id: intCol.member.id,
+                                id: ownerTicket,
                                 allow: [config.Perms.AllowPermToAdmin]
                             },
                             {
@@ -304,7 +305,7 @@ module.exports = {
                                 allow: [config.Perms.AllowPermToAdmin]
                             }
                         ])
-                        await channel.send({ content: `${intCol.member} تیکت شما با موفقیت منتقل شد\n<@&1139624865071104183> / <@&1185176342266916965>` });
+                        await channel.send({ content: `${ownerTicket} تیکت شما با موفقیت منتقل شد\n<@&1139624865071104183> / <@&1185176342266916965>` });
                         await intCol.update({
                             content: `${intCol.member} منتقل شد.`,
                             embeds: [],
