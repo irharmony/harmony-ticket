@@ -1,5 +1,5 @@
 const { createWriteStream } = require('fs');
-const { EmbedBuilder, StringSelectMenuBuilder, ActionRowBuilder, ButtonBuilder, ChannelType, ButtonStyle, roleMention, Events, ComponentType } = require('discord.js');
+const { EmbedBuilder, StringSelectMenuBuilder, ActionRowBuilder, ButtonBuilder, ChannelType, ButtonStyle, roleMention, PermissionFlagsBits, Events, ComponentType } = require('discord.js');
 const { Database } = require("beta.db");
 const db = new Database("./database/infotickets.json")
 let config = require('../config')
@@ -11,7 +11,7 @@ module.exports = {
 
         const req = int.customId.split('_')[0], { guild } = int;
 
-        client.emit('ticketsLogs', req, int.guild, int.member.user);
+        client.emit('ticketsLogs', req, int);
 
         switch (req) {
             case 'createTicket': {
@@ -56,6 +56,12 @@ module.exports = {
                             label: 'تیم مدیریت',
                             description: 'ارتباط با تیم مدیریتی سرور',
                             value: 'newTicket_Moderation'
+                        },
+                        {
+                            emoji: '',
+                            label: 'درخواست چنل',
+                            description: 'درخواست چنل در سکشن zone',
+                            value: 'newTicket_Channel'
                         }
                     ]);
                 const row = new ActionRowBuilder().addComponents([selectMenu]);
@@ -162,7 +168,8 @@ module.exports = {
                         if (int.values[0] === 'newTicket_Devs') {
                             await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n<@&988140030180614174>`, embeds: [ticketEmbed], components: [row] });
                         } else if (int.values[0] === 'newTicket_Configure') {
-                            await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n<@&1139624865071104183>`, embeds: [ticketEmbed], components: [row] });
+                            await c.permissionOverwrites.edit("1185176342266916965", { ViewChannel: true, SendMessages: true })
+                            await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n<@&1139624865071104183> / <@&1185176342266916965>`, embeds: [ticketEmbed], components: [row] });
                         } else if (int.values[0] === 'newTicket_Moderation') {
                             config.Roles.Moderator.map(async (r) => {
                                 await c.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
@@ -173,6 +180,11 @@ module.exports = {
                                 await c.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
                             })
                             await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n${config.Roles.Jug.map(r => roleMention(r))}`, embeds: [ticketEmbed], components: [row] })
+                        } else if (int.values[0] === "newTicket_Channel") {
+                            config.Roles.Req.map(async (r) => {
+                                await c.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
+                            })
+                            await c.send({ content: `${int.member} تیکت شما با موفقیت ساخته شد\n${config.Roles.Req.map(r => roleMention(r))}`, embeds: [ticketEmbed], components: [row] })
                         } else {
                             config.Roles.Moderator.map(async (r) => {
                                 await c.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
@@ -185,7 +197,8 @@ module.exports = {
             }
                 break;
             case 'moveSection': {
-                if (!int.member.roles.cache.find(role => config.Roles.All.includes(role.id))) return int.reply({ content: `${int.member}, شما دسترسی به این باتن ندارید.`, ephemeral: true })
+                if (!int.member.roles.cache.find(role => config.Roles.All.includes(role.id))) return
+                int.reply({ content: `${int.member}, شما دسترسی به این باتن ندارید.`, ephemeral: true })
                 let channel = int.channel
 
                 const moveEmbed = new EmbedBuilder()
@@ -244,7 +257,7 @@ module.exports = {
                             ])
                             await channel.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
                         })
-                        await channel.send({ content: `${intCol.member} تیکت شما با موفقیت منتقل شد\n${config.Roles.Jug.map(r => roleMention(r))}` });
+                        await channel.send({ content: `${intCol.channel} تیکت شما با موفقیت منتقل شد\n${config.Roles.Jug.map(r => roleMention(r))}` });
                         await intCol.update({
                             content: `${intCol.member} منتقل شد.`,
                             embeds: [],
@@ -265,7 +278,7 @@ module.exports = {
                             ])
                             await channel.permissionOverwrites.edit(r, { ViewChannel: true, SendMessages: true })
                         })
-                        await channel.send({ content: `${intCol.member} تیکت شما با موفقیت منتقل شد\n${config.Roles.Moderator.map(r => roleMention(r))}` });
+                        await channel.send({ content: `${intCol.channel} تیکت شما با موفقیت منتقل شد\n${config.Roles.Moderator.map(r => roleMention(r))}` });
                         await intCol.update({
                             content: `${intCol.member} منتقل شد.`,
                             embeds: [],
@@ -283,7 +296,7 @@ module.exports = {
                                 allow: [config.Perms.AllowPermToAdmin]
                             },
                         ])
-                        await channel.send({ content: `${intCol.member} تیکت شما با موفقیت منتقل شد\n<@&988140030180614174>` });
+                        await channel.send({ content: `${intCol.channel} تیکت شما با موفقیت منتقل شد\n<@&988140030180614174>` });
                         await intCol.update({
                             content: `${intCol.member} منتقل شد.`,
                             embeds: [],
@@ -305,7 +318,7 @@ module.exports = {
                                 allow: [config.Perms.AllowPermToAdmin]
                             }
                         ])
-                        await channel.send({ content: `${ownerTicket} تیکت شما با موفقیت منتقل شد\n<@&1139624865071104183> / <@&1185176342266916965>` });
+                        await channel.send({ content: `${intCol.channel} تیکت شما با موفقیت منتقل شد\n<@&1139624865071104183> / <@&1185176342266916965>` });
                         await intCol.update({
                             content: `${intCol.member} منتقل شد.`,
                             embeds: [],
@@ -388,7 +401,7 @@ module.exports = {
                     components: []
                 })
                 const channel = guild.channels.cache.get(int.channelId), LogChannel = guild.channels.cache.get(config.Channels.LogSave);
-                await db.deleteEach(int.channelId)
+                db.deleteEach(int.channelId)
                 await channel.messages.fetch().then(async msg => {
                     let messages = msg.filter(msg => msg.author.bot !== true).map(m => {
                         const date = new Date(m.createdTimestamp).toLocaleString();
