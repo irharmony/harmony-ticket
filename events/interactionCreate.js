@@ -58,7 +58,7 @@ module.exports = {
                             value: 'newTicket_Moderation'
                         },
                         {
-                            emoji: '',
+                            emoji: '<a:995301553147756544:1165513710840848394>',
                             label: 'درخواست چنل',
                             description: 'درخواست چنل در سکشن zone',
                             value: 'newTicket_Channel'
